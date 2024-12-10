@@ -1,34 +1,58 @@
 <template>
-      <section id="home-section" class="relative h-screen bg-cover bg-center"
-             style="background-image: url('/images/hero_1.jpg');">
-      <div class="absolute inset-0 bg-gray-900 bg-opacity-70 z-0"></div>
-      <div class="container mx-auto h-full flex flex-col items-center justify-center px-4 text-center relative z-10">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight ">
-          Buy and Sell Real Estate Properties
-        </h1>
-        <p class="mt-4 text-lg md:text-xl lg:text-2xl text-white max-w-2xl mx-auto leading-relaxed">
-          Discover the best deals and seamless transactions for your real estate needs.
-        </p>
-        <div class="mt-8">
-          <a href="#howitworks-section" class="inline-block bg-white text-black px-6 py-3 rounded-full font-semibold text-lg 
-            hover:bg-gray-300 transition duration-300 shadow-md">
-            Learn More
-          </a>
-        </div>
-      </div>
+  <section
+    id="home-section"
+    class="relative h-screen bg-cover bg-center"
+    :style="{
+      backgroundImage: `url('/storage/${hero.content.image}')`,
+      backgroundColor: settings.bg_color,
+    }"
+  >
+    <!-- Overlay -->
+    <div
+      class="absolute inset-0"
+      :style="{
+        backgroundColor: settings.bg_color,
+        opacity: 0.5,
+      }"
+    ></div>
 
-      <!-- Scroll Indicator -->
-      <a href="#howitworks-section" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white text-4xl 
-          hover:text-gray-300 transition duration-300" aria-label="Scroll to How It Works section">
-        <span class="icon-arrow_downward animate-bounce"></span>
-      </a>
-    </section>
+    <!-- Content -->
+    <div
+      class="container mx-auto h-full flex flex-col items-center justify-center px-4 text-center relative z-10"
+    >
+      <h1
+        class="text-4xl md:text-5xl text-white lg:text-6xl font-extrabold leading-tight"
+        
+      >
+        {{ hero.content.header }}
+      </h1>
+      <p
+        class="mt-4 text-lg md:text-xl text-white lg:text-2xl max-w-2xl mx-auto leading-relaxed"
+      >
+        {{ hero.content.description }}
+      </p>
+      <div class="mt-8">
+        <a
+          href="#howitworks-section"
+          class="inline-block px-6 py-3 text-white rounded-full font-semibold text-lg hover:opacity-90 transition duration-300 shadow-md"
+          :style="{
+            backgroundColor: settings.main_color,
+           
+          }"
+        >
+          Pricing
+        </a>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
-
+const props = defineProps({
+  settings: Object, // Contains dynamic colors (main_color, secondary_color, bg_color, main_font_color, secondary_font_color)
+  hero: Object,     // Contains hero content (image, header, description)
+});
 </script>
 
 <style>
-
 </style>

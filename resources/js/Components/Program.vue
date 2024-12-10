@@ -1,48 +1,128 @@
 <template>
-<section class="py-28 bg-gray-100">
-  <div class="container mx-auto max-w-6xl text-center space-y-16">
-    <!-- Section Title -->
-    <h2 class="text-4xl font-bold text-gray-800">
-Affiliate Program
-</h2>
-    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-      Refer Clients, Earn Cash! Invite your peers and get rewarded with every referral.
-    </p>
+  <section
+    class="py-16 bg-white"
+  >
+    <div class="container mx-auto max-w-6xl text-center space-y-12">
+      <!-- Section Title -->
+      <h2
+        class="text-3xl font-bold"
+        :style="{ color: settings.main_font_color }"
+      >
+        {{ Affiliate_Program.content.header }}
+      </h2>
+      <p
+        class="text-xl max-w-2xl mx-auto"
+        :style="{ color: settings.secondary_font_color }"
+      >
+        {{ Affiliate_Program.content.sub_header }}
+      </p>
 
-    <div class="grid lg:grid-cols-2 grid-cols-1 gap-16">
-      <!-- First Card: Contact Us -->
-      <div class="relative overflow-hidden rounded-xl shadow-lg h-[35rem]">
-        <img src="/images/hero_1.jpg" alt="Contact Us Image" class="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105" />
-        <div class="absolute top-0 left-0 w-full h-full"></div>
-      
-       
-      </div>
-
-      <!-- Second Card: Send Us A Message -->
-      <div class="bg-white p-10 rounded-xl shadow-lg h-[35rem] flex flex-col justify-between">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-8">Send Us A Message</h2>
-        <div class=" space-y-4 text-black">
-          <p class="text-lg font-medium text-start">Every client you refer earns you $100 off your invoice for each active caller. Stack enough clients and get free cold callers. Don’t wait, invite now!</p>
+      <div class="grid lg:grid-cols-2 gap-12">
+        <!-- Left Card: Image -->
+        <div
+          class="relative overflow-hidden rounded-lg shadow-md transition-transform duration-300 hover:scale-105"
+        >
+          <img
+            :src="`/storage/${Affiliate_Program.content.image}`"
+            alt="Affiliate Program Image"
+            class="w-full h-full object-cover"
+          />
         </div>
-        <form class="space-y-6">
-          <input type="text" class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal rounded-full border border-gray-200 focus:outline-none pl-4" placeholder="Name">
-          <input type="email" class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal rounded-full border border-gray-200 focus:outline-none pl-4" placeholder="Email">
-          <input type="tel" class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal rounded-full border border-gray-200 focus:outline-none pl-4" placeholder="Phone">
-          <button class="w-full h-12 text-white text-base font-semibold rounded-full bg-black shadow-sm hover:bg-gray-800 transition-all duration-300">Send Message</button>
-        </form>
+
+        <!-- Right Card: Form -->
+        <div
+          class="bg-white p-8 rounded-lg shadow-md flex flex-col justify-between space-y-6"
+        >
+          <h3
+            class="text-2xl font-semibold"
+            :style="{ color: settings.main_font_color }"
+          >
+            {{ Affiliate_Program.content.third_header }}
+          </h3>
+          <p :style="{ color: settings.secondary_font_color }">
+            {{ Affiliate_Program.content.description }}
+          </p>
+          <form @submit.prevent="send" class="space-y-4">
+            <input
+              type="text"
+              v-model="form.name"
+              class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-gray-500 focus:outline-none"
+              placeholder="Name"
+              :style="{
+                borderColor: settings.main_color,
+                color: settings.secondary_font_color,
+              }"
+            />
+            <input
+              type="email"
+              v-model="form.email"
+              class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-gray-500 focus:outline-none"
+              placeholder="Email"
+              :style="{
+                borderColor: settings.main_color,
+                color: settings.secondary_font_color,
+              }"
+            />
+            <input
+              type="tel"
+              v-model="form.phone"
+              class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-gray-500 focus:outline-none"
+              placeholder="Phone"
+              :style="{
+                borderColor: settings.main_color,
+                color: settings.secondary_font_color,
+              }"
+            />
+            <button
+              type="submit"
+              class="w-full h-12 rounded-lg font-semibold transition duration-300"
+              :style="{
+                backgroundColor: settings.main_color,
+                color: settings.secondary_color,
+              }"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</template>
 
+<script setup>
+import { useForm } from "@inertiajs/vue3";
+import Swal from "sweetalert2";
 
-  
-  </template>
-  
-  <script setup>
-  
-  </script>
-  
-  <style>
-  
-  </style>
+// Form State
+const form = useForm({
+  name: "",
+  email: "",
+  phone: "",
+});
+
+// Form Submission Handler
+const send = () => {
+  form.post(route("programs.store"), {
+    preserveScroll: true,
+    onSuccess: () => {
+      form.reset();
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Message sent successfully!",
+      });
+    },
+  });
+};
+
+// Props
+const props = defineProps({
+  Affiliate_Program: Object, // Contains the content data
+  settings: Object, // Contains dynamic settings for colors
+});
+</script>
+
+<style scoped>
+/* Scoped styles for fine-tuning if needed */
+</style>

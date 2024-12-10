@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -30,10 +31,27 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $settings = Setting::first(); // Assuming only one settings record
+      //  dd( $settings);
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+            ],
+            'settings' => [
+                'main_color' => json_decode($settings->data)->main_color,
+                'secondary_color' => json_decode($settings->data)->secondary_color,
+                'bg_color' => json_decode($settings->data)->bg_color,
+                'main_font_color' => json_decode($settings->data)->main_font_color,
+                'secondary_font_color' => json_decode($settings->data)->secondary_font_color,
+                'website_name' => json_decode($settings->data)->website_name,
+                'logo' => json_decode($settings->data)->logo,
+                'facebook' => json_decode($settings->data)->facebook,
+                'linkedin' => json_decode($settings->data)->linkedin,
+                'email' => json_decode($settings->data)->email,
+                'phone' => json_decode($settings->data)->phone,
+                'footer_text' => json_decode($settings->data)->footer_text,
+                'footer_description' => json_decode($settings->data)->footer_description
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

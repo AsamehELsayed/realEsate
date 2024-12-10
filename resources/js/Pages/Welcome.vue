@@ -1,9 +1,9 @@
 <template>
-    <Hero></Hero>
-    <Capabilities></Capabilities>
-    <pricing></pricing>
-    <program></program>
-    <Chat></Chat>
+    <Hero :settings="settings" :hero="hero"></Hero>
+    <Capabilities :settings="settings" :capabilities="capabilities"></Capabilities>
+    <pricing :settings="settings" :prices="prices"></pricing>
+    <program :settings="settings" :Affiliate_Program="Affiliate_Program"></program>
+    <Chat :settings="settings"></Chat>
 
 
 
@@ -24,5 +24,12 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 
 defineOptions({
     layout: GuestLayout,
+});
+const props = defineProps({
+    hero: Object,
+    Affiliate_Program: Object,
+    capabilities: Object,
+    prices: Object,
+    settings: Object
 });
 </script>
