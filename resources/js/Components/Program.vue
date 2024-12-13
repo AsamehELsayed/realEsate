@@ -1,5 +1,6 @@
 <template>
   <section
+    id="affiliate-section"
     class="py-16 bg-white"
   >
     <div class="container mx-auto max-w-6xl text-center space-y-12">

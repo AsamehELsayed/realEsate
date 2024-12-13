@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AffiliateProgramController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\SectionController;
@@ -71,23 +72,28 @@ Route::get('/', function () {
     $prices->each(callback: function ($price) {
         $price->features = json_decode($price->features, true);
     });
-  
+    $plans = Section::where('name', 'Plans')->first();
+    $plans->content = json_decode($plans->content, true);
      return Inertia::render('Welcome', [
         'hero' => $hero,
         'Affiliate_Program' => $Affiliate_Program,
         'capabilities' => $capabilities,
-        'prices' => $prices
+        'prices' => $prices,
+        'plans' => $plans
     ]);
 });
 Route::resource('contacts', ContactController::class)->only('store');
 Route::resource('programs', AffiliateProgramController::class)->only('store');
+Route::resource('chats', ChatController::class)->only('store');
 
-
+Route::post('/sendMessageGuest', [ChatController::class, 'sendMessageGuest'])->name('sendMessageGuest');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::resource('chats', ChatController::class)->except('store');
+    Route::post('/sendMessage', [ChatController::class, 'sendMessage'])->name('sendMessage');
     Route::resource('prices', PriceController::class);
     Route::resource('contacts', ContactController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::resource('programs', AffiliateProgramController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);

@@ -10,9 +10,10 @@ import { initFlowbite } from 'flowbite';
 onMounted(() => {
    initFlowbite();
 })
-const props = defineProps(['settings']);
+const props = defineProps({
+   auth: Object
+});
 
-const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
@@ -37,7 +38,7 @@ const showingNavigationDropdown = ref(false);
                      </button>
                      <h1 class="text-2xl lg:text-3xl font-bold transition duration-300">
       <!-- Smaller Logo with responsive width and height -->
-      <img :src="`/storage${settings.logo}` " alt="Logo" class="h-8 sm:h-10 lg:h-12 max-w-full" />
+      <img :src="`/storage/${settings?.logo}` " alt="Logo" class="h-8 sm:h-10 lg:h-12 max-w-full" />
     </h1>
                   </div>
                   <div class="flex items-center">
@@ -56,32 +57,18 @@ const showingNavigationDropdown = ref(false);
                            id="dropdown-user">
                            <div class="px-4 py-3" role="none">
                               <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                 Neil Sims
+                                 {{ props?.auth?.user?.name }}
                               </p>
                               <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                 neil.sims@flowbite.com
+                                 {{ props?.auth?.user?.email }}
                               </p>
                            </div>
                            <ul class="py-1" role="none">
                               <li>
-                                 <a href="#"
+                                 <Link :href="route('logout')"
+                                    method="post"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Dashboard</a>
-                              </li>
-                              <li>
-                                 <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Settings</a>
-                              </li>
-                              <li>
-                                 <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Earnings</a>
-                              </li>
-                              <li>
-                                 <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">Sign out</a>
+                                    role="menuitem">Sign out</Link>
                               </li>
                            </ul>
                         </div>
@@ -112,7 +99,7 @@ const showingNavigationDropdown = ref(false);
                      </a>
                   </li>
                   <li>
-                     <a href="#"
+                     <Link  :href="route('chats.index')"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <svg
                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -124,7 +111,7 @@ const showingNavigationDropdown = ref(false);
                               d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                         </svg>
                         <span class="ms-3">Chat</span>
-                     </a>
+                     </Link>
                   </li>
                   <li>
                      <Link :href="route('prices.index')"
@@ -194,6 +181,11 @@ const showingNavigationDropdown = ref(false);
                            <Link :href="route('sections.edit', 3)"
                               class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                            Capabilities</Link>
+                        </li>
+                        <li>
+                           <Link :href="route('sections.edit', 4)"
+                              class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                           Prices</Link>
                         </li>
                      </ul>
                   </li>

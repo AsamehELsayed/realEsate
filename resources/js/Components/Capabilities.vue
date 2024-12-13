@@ -1,6 +1,7 @@
 <template>
     <section
-      class="py-16 bg-white h-[60vh]"
+      id="capabilities-section"
+      class="py-16 bg-white sm:h-full lg:h-96 "
     
     >
       <div class="container mx-auto max-w-5xl text-center space-y-12">

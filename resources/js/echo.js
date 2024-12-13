@@ -11,4 +11,9 @@ window.Echo = new Echo({
     wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
+    auth: {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` // Use your token or auth method
+        }
+    }
 });

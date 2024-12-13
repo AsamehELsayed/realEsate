@@ -13,9 +13,7 @@
       <a href="#home-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Home</a>
       <a href="#properties-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Properties</a>
       <a href="#agents-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Agents</a>
-      <a href="#about-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">About</a>
-      <a href="#news-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">News</a>
-      <a href="#contact-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Contact</a>
+      <a href="#affiliate-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Affiliate Program</a>
     </nav>
 
     <!-- Mobile Menu Button -->

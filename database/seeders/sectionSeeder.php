@@ -46,5 +46,15 @@ class sectionSeeder extends Seeder
       
        ]);
      
+       Section::create(attributes: [
+        'name' => 'Plans',
+        'content' => json_encode([
+            'header'=> 'Plans',
+            'description' => 'description',
+            'image' => 'images/hero_1.jpg',
+        ]),
+      
+       ]);
+     
     }
 }

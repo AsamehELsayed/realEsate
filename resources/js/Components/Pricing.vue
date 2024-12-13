@@ -1,13 +1,28 @@
 <template>
-  <section class="py-16 bg-gray-100 dark:bg-gray-800">
+  <section
+    id="pricing"
+    class="py-16 bg-gray-100 dark:bg-gray-800"
+    :style="{ 
+      backgroundImage: `url('/storage/${plans.content.image}')`, 
+      backgroundSize: 'cover', 
+      backgroundPosition: 'center' 
+    }"
+  >
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
       <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
         <h2
-          class="mb-4 text-4xl tracking-tight font-extrabold"
+          class="mb-4 text-4xl tracking-tight font-extrabold text-white"
           :style="{ color: settings.main_font_color }"
         >
-          Choose Your Path to Success!
+          {{ plans.content.header }}
         </h2>
+
+        <h5
+          class="mb-4 text-2xl tracking-tight font-semibold text-white"
+          :style="{ color: settings.main_font_color }"
+        >
+          {{ plans.content.description }}
+        </h5>
       </div>
 
       <div class="lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0 space-y-8">
@@ -15,21 +30,22 @@
         <div
           v-for="price in prices"
           :key="price.id"
-          class="flex flex-col p-6 mx-auto max-w-lg text-center rounded-lg border shadow-xl h-full"
+          class="flex flex-col p-6 mx-auto max-w-lg text-center rounded-xl border shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 h-full"
           :style="{
             backgroundColor: settings.secondary_color,
             borderColor: settings.main_color,
             borderWidth: '2px',
+            position: 'relative',
           }"
         >
           <h3
-            class="mb-4 text-2xl font-semibold"
+            class="mb-4 text-2xl font-semibold text-white"
             :style="{ color: settings.main_font_color }"
           >
             {{ price.name }}
           </h3>
           <p
-            class="font-light sm:text-lg"
+            class="font-light sm:text-lg text-gray-300"
             :style="{ color: settings.secondary_font_color }"
           >
             {{ price.description }}
@@ -37,12 +53,12 @@
 
           <div class="flex justify-center items-baseline my-8">
             <span
-              class="mr-2 text-5xl font-extrabold"
+              class="mr-2 text-5xl font-extrabold text-white"
               :style="{ color: settings.main_font_color }"
             >
               {{ price.price }}$
             </span>
-            <span :style="{ color: settings.secondary_font_color }">
+            <span class="text-gray-300" :style="{ color: settings.secondary_font_color }">
               / hour
             </span>
           </div>
@@ -50,7 +66,7 @@
           <!-- List Features -->
           <ul
             role="list"
-            class="mb-8 space-y-4 text-left flex-grow"
+            class="mb-8 space-y-4 text-left flex-grow text-gray-300"
             :style="{ color: settings.secondary_font_color }"
           >
             <!-- Include Employee Count as a Feature -->
@@ -96,13 +112,13 @@
 
           <button
             @click="subscribe(price)"
-            class="text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            class="text-white font-medium rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 ease-in-out transform hover:bg-opacity-90"
             :style="{
               backgroundColor: settings.main_color,
               color: settings.secondary_color,
             }"
           >
-            subscribe
+            Subscribe
           </button>
         </div>
         <!-- End of Pricing Card -->
@@ -113,64 +129,85 @@
 
 <script setup>
   import { loadStripe } from '@stripe/stripe-js';
-import Swal from 'sweetalert2';
+  import Swal from 'sweetalert2';
 
-defineProps({
-  prices: Array,  // Array of pricing objects with title, description, price, per, and features
-  settings: Object,  // Contains colors (bg_color, main_color, secondary_color, main_font_color, secondary_font_color)
-});
-const stripePromise = loadStripe('pk_test_51Q7K9jCGumqKsc28Z7l9F0TfwgY2GOdCUuSDHm4rEg2TkmDUlHS7k4xt9VLOnBRkiwEMxXz0li5mu0rL6WyA0u1a00WlRBdRbY'); // استبدل المفتاح العام بمفتاحك الخاص من Stripe
+  defineProps({
+    prices: Array,  // Array of pricing objects with title, description, price, per, and features
+    settings: Object,  // Contains colors (bg_color, main_color, secondary_color, main_font_color, secondary_font_color)
+    plans: Object
+  });
+  
+  const stripePromise = loadStripe('pk_test_51Q7K9jCGumqKsc28Z7l9F0TfwgY2GOdCUuSDHm4rEg2TkmDUlHS7k4xt9VLOnBRkiwEMxXz0li5mu0rL6WyA0u1a00WlRBdRbY'); // Replace with your Stripe public key
 
-const subscribe = async (price) => {
-  try {
-    // Show loading indicator
-    Swal.fire({
-      title: 'loading',
-      text: 'loading..',
-      showConfirmButton: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
+  const subscribe = async (price) => {
+    try {
+      // Show loading indicator
+      Swal.fire({
+        title: 'Loading',
+        text: 'Please wait...',
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
 
-    const featuresWithEmployeeCount = [
-      `${price.employees_count} Employees`,
-      ...price.features,
-    ];
+      const featuresWithEmployeeCount = [
+        `${price.employees_count} Employees`,
+        ...price.features,
+      ];
 
-    const response = await axios.post('/create-checkout-session', {
-      total: price.total,
-      features: featuresWithEmployeeCount,
-    });
+      const response = await axios.post('/create-checkout-session', {
+        total: price.total,
+        features: featuresWithEmployeeCount,
+      });
 
-    const session = response.data;
+      const session = response.data;
 
-    const stripe = await stripePromise;
-    const { error } = await stripe.redirectToCheckout({ sessionId: session.id });
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({ sessionId: session.id });
 
-    if (error) {
-      console.error('Error redirecting to checkout:', error);
+      if (error) {
+        console.error('Error redirecting to checkout:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while processing the payment. Please try again.',
+        });
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'An error occurred while processing the payment. Please try again.',
+        text: 'An error occurred while creating the checkout session. Please try again.',
       });
+    } finally {
+      // Hide the loading indicator
+      Swal.close();
     }
-  } catch (error) {
-    console.error('Error creating checkout session:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'An error occurred while creating the checkout session. Please try again.',
-    });
-  } finally {
-    // Hide the loading indicator
-    Swal.close();
-  }
-};
-
+  };
 </script>
 
 <style scoped>
 /* Scoped styles for better isolation */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+button {
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
 </style>

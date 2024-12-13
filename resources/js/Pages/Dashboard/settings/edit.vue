@@ -151,7 +151,7 @@ const props = defineProps({
 
 // Initialize the form with default values from the settings
 const form = useForm({
-  website_name: props.settings.website_name || '',
+ 
   main_color: props.settings.main_color || '#ffffff',
   secondary_color: props.settings.secondary_color || '#ffffff',
   bg_color: props.settings.bg_color || '#ffffff',

@@ -1,8 +1,9 @@
 <template>
     <Hero :settings="settings" :hero="hero"></Hero>
     <Capabilities :settings="settings" :capabilities="capabilities"></Capabilities>
-    <pricing :settings="settings" :prices="prices"></pricing>
+    <pricing :settings="settings" :prices="prices"  :plans="plans"></pricing>
     <program :settings="settings" :Affiliate_Program="Affiliate_Program"></program>
+    <Calendly></calendly>
     <Chat :settings="settings"></Chat>
 
 
@@ -15,6 +16,7 @@
 
 
 <script setup>
+import Calendly from '@/Components/Calendly.vue';
 import Capabilities from '@/Components/Capabilities.vue';
 import Chat from '@/Components/Chat.vue';
 import Hero from '@/Components/Hero.vue';
@@ -30,6 +32,7 @@ const props = defineProps({
     Affiliate_Program: Object,
     capabilities: Object,
     prices: Object,
+    plans: Object,
     settings: Object
 });
 </script>
