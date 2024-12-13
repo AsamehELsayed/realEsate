@@ -1,5 +1,5 @@
 <template>
-    <div v-once class="calendly-inline-widget" :data-url="calendlyUrl" style="min-width:320px;height:700px;"></div>
+    <div id="calendly" v-once class="calendly-inline-widget z-10" :data-url="calendlyUrl" style="min-width:320px;height:700px;"></div>
   </template>
   
   <script>

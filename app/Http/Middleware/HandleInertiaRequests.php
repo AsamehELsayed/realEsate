@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Chat;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -31,12 +32,14 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $settings = Setting::first(); // Assuming only one settings record
+        $settings = Setting::first();
+        $chat=Chat::where('user_id',null)->get()->count();
       //  dd( $settings);
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'chats_count' =>$chat
             ],
             'settings' => [
                 'main_color' => json_decode($settings->data)->main_color,

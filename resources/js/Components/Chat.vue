@@ -24,7 +24,7 @@
 
     <!-- Heading -->
     <div class="flex flex-col space-y-1 pb-3 border-b border-gray-200">
-      <h2 class="font-bold text-lg text-gray-900">{{ settings.website_title }}</h2>
+      <h2 class="font-bold text-lg text-gray-900">{{ settings.website_name }}</h2>
       <p class="text-sm text-gray-600">Top-tier lead generation capabilities</p>
     </div>
 

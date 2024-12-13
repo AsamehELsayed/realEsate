@@ -17,33 +17,33 @@
     ></div>
 
     <!-- Content -->
-    <div
-      class="container mx-auto h-full flex flex-col items-center justify-center px-4 text-center relative z-10"
-    >
-      <h1
-        class="text-4xl md:text-5xl text-white lg:text-6xl font-extrabold leading-tight"
-        
+      <div
+        class="container mx-auto h-full flex flex-col items-center justify-center px-4 text-center relative z-10"
       >
-        {{ hero.content.header }}
-      </h1>
-      <p
-        class="mt-4 text-lg md:text-xl text-white lg:text-2xl max-w-2xl mx-auto leading-relaxed"
-      >
-        {{ hero.content.description }}
-      </p>
-      <div class="mt-8">
-        <a
-          href="#howitworks-section"
-          class="inline-block px-6 py-3 text-white rounded-full font-semibold text-lg hover:opacity-90 transition duration-300 shadow-md"
-          :style="{
-            backgroundColor: settings.main_color,
-           
-          }"
+        <h1
+          class="text-4xl md:text-5xl text-white lg:text-6xl font-extrabold leading-tight"
+          
         >
-          Pricing
-        </a>
+          {{ hero.content.header }}
+        </h1>
+        <p
+          class="mt-4 text-lg md:text-xl text-white lg:text-2xl max-w-2xl mx-auto leading-relaxed"
+        >
+          {{ hero.content.description }}
+        </p>
+        <div class="mt-8">
+          <a
+            href="#pricing"
+            class="inline-block px-6 py-3 text-white rounded-full font-semibold text-lg hover:opacity-90 transition duration-300 shadow-md"
+            :style="{
+              backgroundColor: settings.main_color,
+            
+            }"
+          >
+            Pricing
+          </a>
+        </div>
       </div>
-    </div>
   </section>
 </template>
 

@@ -151,13 +151,13 @@ const props = defineProps({
 
 // Initialize the form with default values from the settings
 const form = useForm({
- 
+  website_name: props.settings.website_name || '',
   main_color: props.settings.main_color || '#ffffff',
   secondary_color: props.settings.secondary_color || '#ffffff',
   bg_color: props.settings.bg_color || '#ffffff',
   main_font_color: props.settings.main_font_color || '#000000',
   secondary_font_color: props.settings.secondary_font_color || '#555555',
-  logo: props.settings.logo || '',
+  logo: null,
   facebook: props.settings.facebook || '',
   linkedin: props.settings.linkedin || '',
   email: props.settings.email || '',
@@ -175,13 +175,13 @@ const handlelogoUpload = (event) => {
 
 // logo Preview
 const previewlogo = computed(() => {
-    if (form.logo && form.logo instanceof File) {
+    if (form.logo instanceof File) {
         return URL.createObjectURL(form.logo); // If it's a file, create an object URL
     }
-    if (form.logo && typeof form.logo === 'string') {
-        return `/storage/${form.logo}`; ; // If it's a string (image path), return it directly
+    if (typeof form.logo === 'string' && form.logo) {
+        return `/storage/${form.logo}`; // If it's a string (image path), return it directly
     }
-    return null; // Return null if no valid logo is provided
+    return props.settings.logo ? `/storage/${props.settings.logo}` : null; // Return stored logo or null if not available
 });
 
 // Method to update settings using Inertia

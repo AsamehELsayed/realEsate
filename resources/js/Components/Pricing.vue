@@ -2,24 +2,20 @@
   <section
     id="pricing"
     class="py-16 bg-gray-100 dark:bg-gray-800"
-    :style="{ 
-      backgroundImage: `url('/storage/${plans.content.image}')`, 
-      backgroundSize: 'cover', 
-      backgroundPosition: 'center' 
-    }"
+
   >
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-      <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
+      <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12 text-black"
+   >
         <h2
-          class="mb-4 text-4xl tracking-tight font-extrabold text-white"
-          :style="{ color: settings.main_font_color }"
+          class="mb-4 text-4xl tracking-tight font-extrabold text-black"
+         
         >
           {{ plans.content.header }}
         </h2>
 
         <h5
-          class="mb-4 text-2xl tracking-tight font-semibold text-white"
-          :style="{ color: settings.main_font_color }"
+          class="mb-4 text-2xl tracking-tight font-semibold text-black"
         >
           {{ plans.content.description }}
         </h5>
@@ -187,27 +183,3 @@
     }
   };
 </script>
-
-<style scoped>
-/* Scoped styles for better isolation */
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
-button {
-  transition: all 0.3s ease-in-out;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-.card {
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-</style>

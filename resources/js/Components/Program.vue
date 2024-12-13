@@ -21,7 +21,7 @@
       <div class="grid lg:grid-cols-2 gap-12">
         <!-- Left Card: Image -->
         <div
-          class="relative overflow-hidden rounded-lg shadow-md transition-transform duration-300 hover:scale-105"
+          class="relative overflow-hidden rounded-lg shadow-md transition-transform duration-300 max-h-[500px] hover:scale-105"
         >
           <img
             :src="`/storage/${Affiliate_Program.content.image}`"

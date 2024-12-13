@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\UesrController;
 use App\Models\Price;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +44,7 @@ Route::post('/create-checkout-session', function (Illuminate\Http\Request $reque
             'quantity' => 1,
         ]],
         'mode' => 'subscription',
-        'success_url' => url('3'),
+    'success_url' => url('/payment-success'),
         'cancel_url' => url('/payment-cancel'),
         'billing_address_collection' => 'auto', // Prompt for billing address
         'metadata' => [
@@ -58,9 +59,7 @@ Route::post('/create-checkout-session', function (Illuminate\Http\Request $reque
     return response()->json(['id' => $session->id]);
 });
 
-Route::get('stripe', function () {
-    return Inertia::render('paymentTest');
-});
+
 Route::get('/', function () {
     $hero = Section::where('name', 'hero')->first();
     $hero->content = json_decode($hero->content, true);
@@ -82,6 +81,17 @@ Route::get('/', function () {
         'plans' => $plans
     ]);
 });
+Route::get('/payment-success', function () {
+    return Inertia::render('Guest/PaymentSuccess');
+});
+Route::get('/privacy',function () {
+    $privacy = Section::where('name', 'Privacy')->first();
+    $privacy->content = json_decode($privacy->content, true);
+    return Inertia::render('Guest/privacy', [
+        'privacy' => $privacy
+    ]);
+});
+
 Route::resource('contacts', ContactController::class)->only('store');
 Route::resource('programs', AffiliateProgramController::class)->only('store');
 Route::resource('chats', ChatController::class)->only('store');
@@ -95,8 +105,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('chats', ChatController::class)->except('store');
     Route::post('/sendMessage', [ChatController::class, 'sendMessage'])->name('sendMessage');
     Route::resource('prices', PriceController::class);
+    Route::resource('users', UesrController::class);
     Route::resource('contacts', ContactController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::resource('programs', AffiliateProgramController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
+    Route::put('/updatePrivacyPolicy/{id}', [SectionController::class, 'updatePrivacyPolicy'])->name('updatePrivacyPolicy');
     Route::resource('sections', SectionController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::resource('settings', SettingController::class);
 });

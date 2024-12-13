@@ -1,29 +1,57 @@
 <template>
 
   <!-- Header with dynamic background and text color based on scroll -->
-  <header :class="[headerClass, textClass]" :style="{ backgroundColor: headerBackgroundColor, color: headerTextColor }"
-  class="transition-all duration-300 ease-in-out fixed top-0 left-0 w-full z-50">
-  <div class="container mx-auto flex justify-between items-center py-4 px-6 lg:px-8">
-    <h1 class="text-2xl lg:text-3xl font-bold transition duration-300">
-      <!-- Smaller Logo with responsive width and height -->
-      <img :src="`/storage/${settings.logo}`" alt="Logo" class="h-8 sm:h-10 lg:h-12 max-w-full" />
-    </h1>
+  <header 
+    :class="[headerClass, textClass]" 
+    :style="{ backgroundColor: headerBackgroundColor, color: headerTextColor }" 
+    class="transition-all duration-300 ease-in-out fixed top-0 left-0 w-full z-50">
+    <div class="container mx-auto flex justify-between items-center py-4 px-6 lg:px-8">
+      <!-- Logo -->
+      <h1 class="text-2xl lg:text-3xl font-bold transition duration-300">
+        <img :src="`/storage/${settings.logo}`" alt="Logo" class="h-8 sm:h-10 lg:h-12 max-w-full" />
+      </h1>
 
-    <nav class="hidden xl:flex space-x-8 text-lg">
-      <a href="#home-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Home</a>
-      <a href="#properties-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Properties</a>
-      <a href="#agents-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Agents</a>
-      <a href="#affiliate-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Affiliate Program</a>
-    </nav>
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden xl:flex space-x-8 text-lg">
+        <Link href="/" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Home</Link>
+        <Link href="/#capabilities-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Capabilities</Link>
+        <Link href="/#pricing" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Pricing</Link>
+        <Link href="/#affiliate-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Affiliate Program</Link>
+        <Link href="/#calendly" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Book a Meeting</Link>
+        <Link :href="currentPage === '/privacy' ? '/' : '/privacy'" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Privacy Policy</Link>
+      </nav>
 
-    <!-- Mobile Menu Button -->
-    <div class="xl:hidden">
-      <button class="text-gray-700 text-3xl hover:text-blue-500 transition duration-300 js-menu-toggle">
-        <span class="icon-menu"></span>
+      <!-- Mobile Menu Button -->
+      <button @click="isMenuOpen = !isMenuOpen" 
+        class="xl:hidden text-gray-700 text-3xl hover:text-blue-500 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        aria-controls="mobile-menu" :aria-expanded="isMenuOpen.toString()">
+        <span class="sr-only">Toggle navigation</span>
+        ☰
       </button>
     </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" 
+    :class="['xl:hidden fixed inset-0 z-40 bg-gray-900 bg-opacity-90 text-white transform transition-transform', isMenuOpen ? 'translate-y-0' : '-translate-y-full']">
+    <div class="flex flex-col items-center justify-center space-y-6 py-12">
+      <Link href="/" class="font-bold text-lg hover:text-blue-500 transition-all" 
+        :class="linkClass" :style="{ color: linkTextColor }">Home</Link>
+      <Link href="/#capabilities-section" class="font-bold text-lg hover:text-blue-500 transition-all" 
+        :class="linkClass" :style="{ color: linkTextColor }">Capabilities</Link>
+      <Link href="/#pricing" class="font-bold text-lg hover:text-blue-500 transition-all" 
+        :class="linkClass" :style="{ color: linkTextColor }">Pricing</Link>
+      <Link href="/#affiliate-section" class="font-bold text-lg hover:text-blue-500 transition-all" 
+        :class="linkClass" :style="{ color: linkTextColor }">Affiliate Program</Link>
+      <Link href="/#calendly" class="font-bold text-lg hover:text-blue-500 transition-all" 
+        :class="linkClass" :style="{ color: linkTextColor }">Book a Meeting</Link>
+      <Link :href="currentPage === '/privacy' ? '/' : '/privacy'" 
+        class="font-bold text-lg hover:text-blue-500 transition-all" 
+        :class="linkClass" :style="{ color: linkTextColor }">Privacy Policy</Link>
+    </div>
   </div>
-</header>
+<!-- Mobile Menu (Vue Reactive State) -->
+
 
 
   <!-- Main Content -->
@@ -117,9 +145,10 @@ const headerTextColor = computed(() => props.settings.secondary_color);
 const linkTextColor = computed(() => props.settings.secondary_color);
 const headerClass = computed(() => 'transition-all duration-300 ease-in-out');
 const textClass = computed(() => 'font-semibold');
-import { useForm } from "@inertiajs/vue3";
+import { Link, useForm } from "@inertiajs/vue3";
 import InputError from '@/Components/InputError.vue';
 import Swal from 'sweetalert2';
+import { initFlowbite } from 'flowbite';
 
 const form = useForm({
   name: "",
@@ -127,7 +156,7 @@ const form = useForm({
   subject: "",
   message: "",
 });
-
+const  isMenuOpen = ref(false)
 const sendMessage = () => {
   form.post(route("contacts.store"), {
     preserveScroll: true,
@@ -143,6 +172,7 @@ const sendMessage = () => {
   });
 };
 // Scroll handler
+
 const handleScroll = () => {
   scrolled.value = window.scrollY > 50;
 };
@@ -150,9 +180,20 @@ const handleScroll = () => {
 // Lifecycle hooks
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  initFlowbite();
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 </script>
+<style scoped>
+/* Optional additional styles for mobile menu */
+#mobile-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+</style>
