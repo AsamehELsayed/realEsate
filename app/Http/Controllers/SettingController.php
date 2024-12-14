@@ -47,6 +47,7 @@ class SettingController extends Controller
             'main_font_color' => 'required|string',
             'secondary_font_color' => 'required|string',
             'bg_color' => 'required|string',
+            'main_bg_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10000',
             'website_name' => 'required|string|max:255',
             'logo' => 'sometimes|image|max:5000',  // Validate logo as an image
             'facebook' => 'nullable|url|max:255',
@@ -69,6 +70,12 @@ class SettingController extends Controller
         if ($request->hasFile('logo')) {
             $logoPath = $request->file('logo')->store('logos', 'public');  // Store logo in public/logos
         }
+        // Handle bg main image file upload if present
+        $bgMainImagePath = null;
+        if ($request->hasFile('main_bg_image')) {
+            $bgMainImagePath = $request->file('main_bg_image')->store('main_bg_images', 'public');  // Store bg main image in public/main_bg_images
+        }
+        
 
         // Prepare settings data
         $settingsData = [
@@ -89,6 +96,11 @@ class SettingController extends Controller
         // If logo is uploaded, add it to settings data
         if ($logoPath) {
             $settingsData['logo'] = $logoPath;
+        }
+
+        // If bg main image is uploaded, add it to settings data
+        if ($bgMainImagePath) {
+            $settingsData['main_bg_image'] = $bgMainImagePath;
         }
 
         // Log the data to check if it's being prepared correctly

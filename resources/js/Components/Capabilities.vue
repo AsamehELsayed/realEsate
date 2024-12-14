@@ -1,24 +1,24 @@
 <template>
+
     <section
       id="capabilities-section"
-      class="py-16 bg-white sm:h-full lg:h-96 "
+      class="py-16 bg-white sm:h-full lg:h-96  "
     
     >
-      <div class="container mx-auto max-w-5xl text-center space-y-12">
+      <div class="container mx-auto max-w-5xl text-center space-y-12 z-20">
         <h2
-          class="text-3xl font-bold"
+          class="text-3xl font-bold z-20"
           :style="{ color: settings.main_font_color }"
         >
           {{ capabilities.content.header }}
         </h2>
   
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 z-20">
           <!-- Capability 1 -->
           <div
             class="space-y-4 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
             :style="{
-              backgroundColor: settings.secondary_color,
-              borderColor: settings.main_color,
+          
               borderWidth: '2px'
             }"
           >
@@ -46,8 +46,7 @@
           <div
             class="space-y-4 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
             :style="{
-              backgroundColor: settings.secondary_color,
-              borderColor: settings.main_color,
+         
               borderWidth: '2px'
             }"
           >
@@ -75,8 +74,7 @@
           <div
             class="space-y-4 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
             :style="{
-              backgroundColor: settings.secondary_color,
-              borderColor: settings.main_color,
+           
               borderWidth: '2px'
             }"
           >
@@ -109,6 +107,7 @@
     capabilities: Object, // Contains dynamic content for each capability (header, title, description)
     settings: Object,     // Contains dynamic colors (bg_color, main_color, secondary_color, main_font_color, secondary_font_color)
   });
+
   </script>
   
   <style scoped>

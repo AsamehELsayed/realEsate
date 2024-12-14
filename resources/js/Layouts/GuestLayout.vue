@@ -13,12 +13,10 @@
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden xl:flex space-x-8 text-lg">
-        <Link href="/" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Home</Link>
-        <Link href="/#capabilities-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Capabilities</Link>
-        <Link href="/#pricing" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Pricing</Link>
-        <Link href="/#affiliate-section" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Affiliate Program</Link>
-        <Link href="/#calendly" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Book a Meeting</Link>
-        <Link :href="currentPage === '/privacy' ? '/' : '/privacy'" class="font-bold" :class="linkClass" :style="{ color: linkTextColor }">Privacy Policy</Link>
+        <Link :href="route('home')" class="font-bold text-2xl" :class="linkClass" :style="{ color: linkTextColor }">Home</Link>
+        <Link :href="route('plans')" class="font-bold text-2xl"  :class="linkClass" :style="{ color: linkTextColor }">Pricing</Link>
+        <Link :href="route('calendly')" class="font-bold text-2xl" :class="linkClass" :style="{ color: linkTextColor }">Book a Meeting</Link>
+        <Link :href="route('contact-us')" class="font-bold text-2xl" :class="linkClass" :style="{ color: linkTextColor }">Contact Us</Link>
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -33,21 +31,19 @@
 
   <!-- Mobile Menu -->
   <div id="mobile-menu" 
-    :class="['xl:hidden fixed inset-0 z-40 bg-gray-900 bg-opacity-90 text-white transform transition-transform', isMenuOpen ? 'translate-y-0' : '-translate-y-full']">
+    :class="['xl:hidden fixed inset-0 z-40 bg-gray-900 bg-opacity-90 text-white transform transition-transform', isMenuOpen ? 'translate-y-0 lg:hidden' : '-translate-y-full']">
     <div class="flex flex-col items-center justify-center space-y-6 py-12">
-      <Link href="/" class="font-bold text-lg hover:text-blue-500 transition-all" 
+      <Link :href="route('home')" class="font-bold text-lg hover:text-blue-500 transition-all" 
         :class="linkClass" :style="{ color: linkTextColor }">Home</Link>
-      <Link href="/#capabilities-section" class="font-bold text-lg hover:text-blue-500 transition-all" 
-        :class="linkClass" :style="{ color: linkTextColor }">Capabilities</Link>
-      <Link href="/#pricing" class="font-bold text-lg hover:text-blue-500 transition-all" 
+    
+      <Link :href="route('plans')" class="font-bold text-lg hover:text-blue-500 transition-all" 
         :class="linkClass" :style="{ color: linkTextColor }">Pricing</Link>
-      <Link href="/#affiliate-section" class="font-bold text-lg hover:text-blue-500 transition-all" 
-        :class="linkClass" :style="{ color: linkTextColor }">Affiliate Program</Link>
-      <Link href="/#calendly" class="font-bold text-lg hover:text-blue-500 transition-all" 
+
+      <Link :href="route('calendly')" class="font-bold text-lg hover:text-blue-500 transition-all" 
         :class="linkClass" :style="{ color: linkTextColor }">Book a Meeting</Link>
-      <Link :href="currentPage === '/privacy' ? '/' : '/privacy'" 
-        class="font-bold text-lg hover:text-blue-500 transition-all" 
-        :class="linkClass" :style="{ color: linkTextColor }">Privacy Policy</Link>
+      <Link :href="route('contact-us')" class="font-bold text-lg hover:text-blue-500 transition-all" 
+        :class="linkClass" :style="{ color: linkTextColor }">Contact Us</Link>
+
     </div>
   </div>
 <!-- Mobile Menu (Vue Reactive State) -->
@@ -55,31 +51,33 @@
 
 
   <!-- Main Content -->
+
   <main>
     <slot></slot>
   </main>
 
   <!-- Footer Section -->
-  <footer class="py-16" :style="{ backgroundColor: settings.main_color, color: settings.secondary_color }">
-  <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+  <footer class="py-16 relative z-0" :style="sharedBackgroundStyle" >
+<div class="bg-gray-800 opacity-50 blur-lg inset-0 absolute top-0 left-0 -z-10"></div>
+  <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-3 gap-12 z-20">
     <!-- More Info Section -->
     <div class="space-y-8">
   <div>
-    <h3 class="text-lg font-semibold mb-2" :style="{ color: settings.secondary_color }">Email</h3>
+    <h3 class="text-lg font-semibold mb-2 text-white"  >Email</h3>
     <div class="flex items-center space-x-4">
       <div class="bg-gray-800 shadow-lg h-12 w-12 flex items-center justify-center rounded-full transition-all transform hover:scale-105">
         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16v-5.5A3.5 3.5 0 0 0 7.5 7m3.5 9H4v-5.5A3.5 3.5 0 0 1 7.5 7m3.5 9v4M7.5 7H14m0 0V4h2.5M14 7v3m-3.5 6H20v-6a3 3 0 0 0-3-3m-2 9v4m-8-6.5h1" />
         </svg>
       </div>
-      <a :href="`mailto:${settings.email}`" class="hover:underline hover:text-blue-500" :style="{ color: settings.secondary_color }">
+      <a :href="`mailto:${settings.email}`" class="hover:underline hover:text-blue-500 text-white"  >
         {{ settings.email }}
       </a>
     </div>
   </div>
 
   <div>
-    <h2 class="text-2xl font-bold mb-6" :style="{ color: settings.secondary_color }">Follow Us</h2>
+    <h2 class="text-2xl font-bold mb-6 text-white"  >Follow Us</h2>
     <div class="flex space-x-4">
       <a :href="settings.linkedin" v-if="settings.linkedin" target="_blank" class="bg-gray-800 p-3 rounded-full shadow-md hover:bg-blue-500 transition-transform transform hover:scale-110">
         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -97,34 +95,34 @@
 
   <!-- Developed By Section -->
   <div>
-    <h3 class="text-lg font-semibold mb-2" :style="{ color: settings.secondary_color }">Developed By</h3>
-    <p class="text-gray-600" :style="{ color: settings.secondary_color }">
+    <h3 class="text-lg font-semibold mb-2 text-white"   >Developed By</h3>
+    <p class="text-white"  >
       Designed and developed by <a href="https://www.linkedin.com/in/abdelrahman-sameh-8931a41b2/" target="_blank" class="hover:underline text-blue-500">Abdelrahman Sameh</a>.
     </p>
   </div>
 </div>
 
     <!-- Footer Text Description Section -->
-    <div class="lg:col-span-1 flex flex-col items-start justify-center">
-      <h2 class="text-2xl font-bold mb-6" :style="{ color: settings.secondary_color }">{{ settings.footer_text }}</h2>
-      <p :style="{ color: settings.secondary_color }" class="text-lg">{{
+    <div class="lg:col-span-1 flex flex-col items-start justify-center text-white">
+      <h2 class="text-2xl font-bold mb-6">{{ settings.footer_text }}</h2>
+      <p   class="text-lg">{{
         settings.footer_description }}
       </p>
     </div>
 
     <!-- Contact Form Section -->
-    <div class="lg:col-span-1 space-y-6">
-      <h2 class="text-2xl font-bold mb-6" :style="{ color: settings.secondary_color }">Contact Us</h2>
+    <div class="lg:col-span-1 space-y-6 text-white">
+      <h2 class="text-2xl font-bold mb-6" >Contact Us</h2>
       <form @submit.prevent="sendMessage" class="space-y-4">
-        <input type="text" v-model="form.name" class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Name" :style="{ borderColor: settings.secondary_color }" />
+        <input type="text" v-model="form.name" class="w-full h-12 px-4 text-gray-900 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Name"   />
         <InputError :message="form.errors.name" class="mt-2" />
-        <input type="email" v-model="form.email" class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Email" :style="{ borderColor: settings.secondary_color }" />
+        <input type="email" v-model="form.email" class="w-full h-12 px-4 text-gray-900 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Email"   />
         <InputError :message="form.errors.email" class="mt-2" />
-        <input type="text" v-model="form.subject" class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Subject" :style="{ borderColor: settings.secondary_color }" />
+        <input type="text" v-model="form.subject" class="w-full h-12 px-4 text-gray-900 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Subject"   />
         <InputError :message="form.errors.subject" class="mt-2" />
-        <textarea v-model="form.message" class="w-full h-32 px-4 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Message" :style="{ borderColor: settings.secondary_color }"></textarea>
+        <textarea v-model="form.message" class="w-full h-32 px-4 rounded-lg text-gray-900 border focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Message" ></textarea>
         <InputError :message="form.errors.message" class="mt-2" />
-        <button type="submit" class="w-full h-12 rounded-lg font-bold transition bg-blue-500 hover:bg-blue-600 focus:outline-none" :style="{ color: settings.secondary_color }">Send Message</button>
+        <button type="submit" class="w-full h-12 rounded-lg font-bold transition bg-blue-500 hover:bg-blue-600 focus:outline-none"  >Send Message</button>
       </form>
     </div>
   </div>
@@ -139,6 +137,12 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 const props = defineProps(['settings']);
 
 const scrolled = ref(false); // Track scroll state
+const sharedBackgroundStyle = {
+  backgroundImage: `url('/storage/${props.settings.main_bg_image}')`,
+  backgroundColor: props.settings.bg_color,
+  backgroundAttachment: 'fixed',
+  backgroundSize: 'cover',
+};
 
 const headerBackgroundColor = computed(() => scrolled.value ? props.settings.main_color : "transparent");
 const headerTextColor = computed(() => props.settings.secondary_color);

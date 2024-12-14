@@ -1,7 +1,7 @@
 <template>
     <div class="w-full flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold">Plans</h1>
-      <Link :href="route('users.create')" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300">
+      <Link :href="route('users.create')"  v-if="auth.user.is_admin"  class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300">
         + Create
       </Link>
     </div>
@@ -25,7 +25,7 @@
             <td class="px-6 py-4">{{ user.email }}</td>
             <td class="px-6 py-4">{{ user.phone }}</td>
             <td class="px-6 py-4 flex justify-center gap-2">
-              <Link :href="route('users.edit', user.id)" 
+              <Link :href="route('users.edit', user.id) " v-if="auth.user.is_admin" 
                     class="px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded shadow hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300">
                Edit
               </Link>      
@@ -45,7 +45,8 @@
         layout: AuthenticatedLayout
     })
     const props= defineProps({
-        users:Object
+        users:Object,
+        auth:Object
     })
     </script>
     

@@ -1,20 +1,23 @@
 <template>
+
   <section
     id="affiliate-section"
     class="py-16 bg-white"
+    :style="sharedBackgroundStyle"
   >
-    <div class="container mx-auto max-w-6xl text-center space-y-12">
+
+    <div class="container mx-auto max-w-6xl text-center space-y-12 z-20">
       <!-- Section Title -->
       <h2
         class="text-3xl font-bold"
-        :style="{ color: settings.main_font_color }"
-      >
+        :style="{ color: settings.main_color }"
+        >
         {{ Affiliate_Program.content.header }}
       </h2>
       <p
         class="text-xl max-w-2xl mx-auto"
-        :style="{ color: settings.secondary_font_color }"
-      >
+        :style="{ color: settings.main_color }"
+        >
         {{ Affiliate_Program.content.sub_header }}
       </p>
 
@@ -50,7 +53,7 @@
               class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-gray-500 focus:outline-none"
               placeholder="Name"
               :style="{
-                borderColor: settings.main_color,
+                borderColor: settings.secondary_color,
                 color: settings.secondary_font_color,
               }"
             />
@@ -60,7 +63,7 @@
               class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-gray-500 focus:outline-none"
               placeholder="Email"
               :style="{
-                borderColor: settings.main_color,
+                borderColor: settings.secondary_color,
                 color: settings.secondary_font_color,
               }"
             />
@@ -70,7 +73,7 @@
               class="w-full h-12 px-4 rounded-lg border focus:ring-2 focus:ring-gray-500 focus:outline-none"
               placeholder="Phone"
               :style="{
-                borderColor: settings.main_color,
+                borderColor: settings.secondary_color,
                 color: settings.secondary_font_color,
               }"
             />
@@ -78,8 +81,8 @@
               type="submit"
               class="w-full h-12 rounded-lg font-semibold transition duration-300"
               :style="{
-                backgroundColor: settings.main_color,
-                color: settings.secondary_color,
+                backgroundColor: settings.secondary_color,
+                color: settings.main_color,
               }"
             >
               Send Message
@@ -122,6 +125,14 @@ const props = defineProps({
   Affiliate_Program: Object, // Contains the content data
   settings: Object, // Contains dynamic settings for colors
 });
+const sharedBackgroundStyle = {
+  backgroundImage: `url('/storage/${props.settings.main_bg_image}')`,
+  backgroundColor: props.settings.bg_color,
+  backgroundAttachment: 'fixed',
+  backgroundSize: 'cover',
+  
+};
+
 </script>
 
 <style scoped>

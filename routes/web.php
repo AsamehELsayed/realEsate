@@ -73,24 +73,45 @@ Route::get('/', function () {
     });
     $plans = Section::where('name', 'Plans')->first();
     $plans->content = json_decode($plans->content, true);
+    $features = Section::where('name', 'features')->first();
+    $features->content = json_decode($features->content, true);
      return Inertia::render('Welcome', [
         'hero' => $hero,
         'Affiliate_Program' => $Affiliate_Program,
         'capabilities' => $capabilities,
         'prices' => $prices,
-        'plans' => $plans
+        'plans' => $plans,
+        'features' => $features
     ]);
-});
+})->name('home');
 Route::get('/payment-success', function () {
     return Inertia::render('Guest/PaymentSuccess');
 });
+Route::get('/plans',function () {
+    $plans = Section::where('name', 'Plans')->first();
+    $plans->content = json_decode($plans->content, true);
+    $prices= Price::all();
+    $prices->each(callback: function ($price) {
+        $price->features = json_decode($price->features, true);
+    });
+    return Inertia::render('Guest/Plans', [
+        'plans' => $plans,
+        'prices' => $prices
+    ]);
+})->name('plans');
+Route::get('/contact-us',function () {
+    return Inertia::render('Guest/contactUs');
+})->name('contact-us');
+Route::get('/book-a-meeting',function () {
+    return Inertia::render('Guest/Calendly');
+})->name('calendly');
 Route::get('/privacy',function () {
     $privacy = Section::where('name', 'Privacy')->first();
     $privacy->content = json_decode($privacy->content, true);
     return Inertia::render('Guest/privacy', [
         'privacy' => $privacy
     ]);
-});
+})->name('privacy');
 
 Route::resource('contacts', ContactController::class)->only('store');
 Route::resource('programs', AffiliateProgramController::class)->only('store');

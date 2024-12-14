@@ -24,7 +24,9 @@ class User extends Authenticatable
         'phone',
         'image',
     ];
-
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *

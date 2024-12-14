@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'settings' => [
                 'main_color' => json_decode($settings->data)->main_color,
+                'main_bg_image' => json_decode($settings->data)->main_bg_image,
                 'secondary_color' => json_decode($settings->data)->secondary_color,
                 'bg_color' => json_decode($settings->data)->bg_color,
                 'main_font_color' => json_decode($settings->data)->main_font_color,

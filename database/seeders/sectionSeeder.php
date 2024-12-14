@@ -18,7 +18,7 @@ class sectionSeeder extends Seeder
             'title' => 'title',
             'header'=> 'header',
             'description' => 'description',
-            'image' => 'images/hero_1.jpg',
+           
         ]),
       
        ]);
@@ -43,6 +43,7 @@ class sectionSeeder extends Seeder
             'capabilities_two' =>  ['title' => 'title 2', 'description' => 'description 2'],
             'capabilities_three' =>  ['title' => 'title 3', 'description' => 'description 3'],
         ]),
+    
       
        ]);
      
@@ -51,7 +52,6 @@ class sectionSeeder extends Seeder
         'content' => json_encode([
             'header'=> 'Plans',
             'description' => 'description',
-            'image' => 'images/hero_1.jpg',
         ]),
       
        ]);
@@ -85,5 +85,17 @@ class sectionSeeder extends Seeder
             ',
         ]),
     ]);
+    Section::create(attributes: [
+        'name' => 'features',
+        'content' => json_encode([
+            'header'=> 'Features',
+            'feature_one' =>  ['title' => 'title 1', 'description' => 'description 1'],
+            'feature_two' =>  ['title' => 'title 2', 'description' => 'description 2'],
+            'feature_three' =>  ['title' => 'title 3', 'description' => 'description 3'],
+            'feature_four' =>  ['title' => 'title 4', 'description' => 'description 4'],
+        ]),
+      
+       ]);
     }
+    
 }

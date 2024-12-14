@@ -1,21 +1,24 @@
 <template>
   <section
-    id="pricing"
-    class="py-16 bg-gray-100 dark:bg-gray-800"
 
+  class="py-16  "
+  :style="sharedBackgroundStyle"
+  
   >
-    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+
+    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 z-20">
       <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12 text-black"
    >
         <h2
           class="mb-4 text-4xl tracking-tight font-extrabold text-black"
-         
+          :style="{ color: settings.main_color }"
         >
           {{ plans.content.header }}
         </h2>
 
         <h5
           class="mb-4 text-2xl tracking-tight font-semibold text-black"
+          :style="{ color: settings.main_color }"
         >
           {{ plans.content.description }}
         </h5>
@@ -28,8 +31,8 @@
           :key="price.id"
           class="flex flex-col p-6 mx-auto max-w-lg text-center rounded-xl border shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 h-full"
           :style="{
-            backgroundColor: settings.secondary_color,
-            borderColor: settings.main_color,
+            backgroundColor: settings.main_color,
+            borderColor: settings.secondary_color,
             borderWidth: '2px',
             position: 'relative',
           }"
@@ -110,8 +113,8 @@
             @click="subscribe(price)"
             class="text-white font-medium rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 ease-in-out transform hover:bg-opacity-90"
             :style="{
-              backgroundColor: settings.main_color,
-              color: settings.secondary_color,
+       backgroundColor: settings.secondary_color,
+       color: settings.main_color,
             }"
           >
             Subscribe
@@ -127,12 +130,19 @@
   import { loadStripe } from '@stripe/stripe-js';
   import Swal from 'sweetalert2';
 
-  defineProps({
+  const props = defineProps({
     prices: Array,  // Array of pricing objects with title, description, price, per, and features
     settings: Object,  // Contains colors (bg_color, main_color, secondary_color, main_font_color, secondary_font_color)
-    plans: Object
+    plans: Object,
+    hero: Object
   });
-  
+  const sharedBackgroundStyle = {
+  backgroundImage: `url('/storage/${props.settings.main_bg_image}')`,
+  backgroundColor: props.settings.bg_color,
+  backgroundAttachment: 'fixed',
+  backgroundSize: 'cover',
+};
+
   const stripePromise = loadStripe('pk_test_51Q7K9jCGumqKsc28Z7l9F0TfwgY2GOdCUuSDHm4rEg2TkmDUlHS7k4xt9VLOnBRkiwEMxXz0li5mu0rL6WyA0u1a00WlRBdRbY'); // Replace with your Stripe public key
 
   const subscribe = async (price) => {

@@ -69,7 +69,7 @@ const props = defineProps({
                     <span class="sr-only">Open user menu</span>
                     <img
                       class="w-8 h-8 rounded-full"
-                      :src='props?.auth?.user?.image'
+                      :src="auth?.user?.image"
                       alt="user photo"
                     />
                   </button>
@@ -83,13 +83,13 @@ const props = defineProps({
                       class="text-sm text-gray-900 dark:text-white"
                       role="none"
                     >
-                      {{ props?.auth?.user?.name }}
+                      {{ auth?.user?.name }}
                     </p>
                     <p
                       class="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                       role="none"
                     >
-                      {{ props?.auth?.user?.email }}
+                      {{ auth?.user?.email }}
                     </p>
                   </div>
                   <ul class="py-1" role="none">
@@ -117,7 +117,6 @@ const props = defineProps({
       >
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
           <ul class="space-y-2 font-medium">
-           
             <li>
               <Link
                 :href="route('chats.index')"
@@ -194,6 +193,32 @@ const props = defineProps({
                 </svg>
 
                 <span class="ms-3">Affiliate Program</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                :href="route('contacts.index')"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 13h3.439a.991.991 0 0 1 .908.6 3.978 3.978 0 0 0 7.306 0 .99.99 0 0 1 .908-.6H20M4 13v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-6M4 13l2-9h12l2 9"
+                  />
+                </svg>
+
+                <span class="ms-3">Contacts</span>
               </Link>
             </li>
             <li>
@@ -278,13 +303,21 @@ const props = defineProps({
                     :href="route('sections.edit', 5)"
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
-                    privacy</Link
+                    Privacy</Link
+                  >
+                </li>
+                <li>
+                  <Link
+                    :href="route('sections.edit', 6)"
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Features</Link
                   >
                 </li>
               </ul>
             </li>
 
-            <li>
+            <li v-if="auth.user.is_admin">
               <Link
                 :href="route('users.index')"
                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -303,7 +336,7 @@ const props = defineProps({
                 <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
               </Link>
             </li>
-            <li>
+            <li v-if="auth?.user?.is_admin">
               <Link
                 :href="route('settings.index')"
                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"

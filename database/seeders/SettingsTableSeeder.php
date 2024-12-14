@@ -17,6 +17,7 @@ class SettingsTableSeeder extends Seeder
                 'main_color' => '#4f46e5',
                 'secondary_color' => '#34c759',
                 'bg_color' => '#f7f7f7',
+                'main_bg_image' => 'sections/hero_1.jpg',
                 'main_font_color' => '#000000', // Added main font color
                 'secondary_font_color' => '#555555', // Added secondary font color
                  'website_name' => 'Alie Callers',

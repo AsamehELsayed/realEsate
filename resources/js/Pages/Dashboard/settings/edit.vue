@@ -76,7 +76,7 @@
           <p v-if="form.progress" class="text-sm text-gray-500">
             {{ form.progress.percentage }}%
           </p>
-
+        
           <!-- Error Message -->
           <p v-if="form.errors.logo" class="text-sm text-red-500">
             {{ form.errors.logo }}
@@ -85,6 +85,32 @@
           <!-- logo Preview -->
           <div  class="mt-4 w-full flex justify-center">
             <img :src="previewlogo " alt="Preview logo"
+              class="w-96 h-96 rounded-md shadow-md object-cover border border-gray-300" />
+          </div>
+        </div>
+        <div class="space-y-4">
+          <!-- File Input -->
+          <input id="image" type="file" accept="logo/*" @change="handlebgUpload"
+            class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+
+          <!-- Progress Bar -->
+          <div v-if="form.progress" class="relative w-full h-2 bg-gray-200 rounded-md">
+            <div class="absolute top-0 left-0 h-2 bg-blue-500 rounded-md"
+              :style="{ width: `${form.progress.percentage}%` }">
+            </div>
+          </div>
+          <p v-if="form.progress" class="text-sm text-gray-500">
+            {{ form.progress.percentage }}%
+          </p>
+        
+          <!-- Error Message -->
+          <p v-if="form.errors.logo" class="text-sm text-red-500">
+            {{ form.errors.main_bg_image }}
+          </p>
+
+          <!-- logo Preview -->
+          <div  class="mt-4 w-full flex justify-center">
+            <img :src="previewbg " alt="Preview logo"
               class="w-96 h-96 rounded-md shadow-md object-cover border border-gray-300" />
           </div>
         </div>
@@ -158,6 +184,7 @@ const form = useForm({
   main_font_color: props.settings.main_font_color || '#000000',
   secondary_font_color: props.settings.secondary_font_color || '#555555',
   logo: null,
+  main_bg_image: null,
   facebook: props.settings.facebook || '',
   linkedin: props.settings.linkedin || '',
   email: props.settings.email || '',
@@ -184,6 +211,23 @@ const previewlogo = computed(() => {
     return props.settings.logo ? `/storage/${props.settings.logo}` : null; // Return stored logo or null if not available
 });
 
+const handlebgUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    form.main_bg_image = file;
+  }
+};
+
+// Background Preview
+const previewbg = computed(() => {
+    if (form.main_bg_image instanceof File) {
+        return URL.createObjectURL(form.main_bg_image); // If it's a file, create an object URL
+    }
+    if (typeof form.main_bg_image === 'string' && form.main_bg_image) {
+        return `/storage/${form.main_bg_image}`; // If it's a string (image path), return it directly
+    }
+    return props.settings.main_bg_image ? `/storage/${props.settings.main_bg_image}` : null; // Return stored logo or null if not available
+});
 // Method to update settings using Inertia
 const updateSettings = () => {
   // Send the updated settings via a POST request using Inertia.js
