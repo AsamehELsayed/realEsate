@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable(); // For authenticated users
             $table->uuid('guest_id')->nullable();              // For guest users
             $table->timestamps();
-
+            $table->boolean('auto_message')->default(true);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

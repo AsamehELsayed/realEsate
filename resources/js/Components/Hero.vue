@@ -23,8 +23,8 @@
           {{ hero.content.description }}
         </p>
         <div class="mt-8">
-          <a
-            href="#pricing"
+          <Link
+            :href="route('plans')"
             class="inline-block px-6 py-3 text-white rounded-full font-semibold text-lg hover:opacity-90 transition duration-300 shadow-md"
             :style="{
               backgroundColor: settings.secondary_color,
@@ -32,7 +32,7 @@
             }"
           >
             Pricing
-          </a>
+          </Link>
         </div>
       </div>
   </section>

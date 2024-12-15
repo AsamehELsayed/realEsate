@@ -14,14 +14,14 @@ class SettingsTableSeeder extends Seeder
     {
         DB::table('settings')->insert([
             'data' => json_encode([
-                'main_color' => '#4f46e5',
-                'secondary_color' => '#34c759',
+                'main_color' => '#ffffff',
+                'secondary_color' => '#1891d8',
                 'bg_color' => '#f7f7f7',
                 'main_bg_image' => 'sections/hero_1.jpg',
                 'main_font_color' => '#000000', // Added main font color
                 'secondary_font_color' => '#555555', // Added secondary font color
                  'website_name' => 'Alie Callers',
-                'logo' =>'\logos\Z3z7VeuuXCoCgoNq1VXc6lruHo0CaLTA6lZQajvu.png',
+                'logo' =>'\logos\defaultlogo.jpg',
                 'facebook' => 'https://facebook.com/yourpage',
                 'linkedin' => 'https://linkedin.com/yourprofile',
                 'email' => 'your-email@example.com',

@@ -44,30 +44,57 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        // التحقق من وجود guest_id في الكوكيز
+        // Check for guest_id in cookies
         $guest_id = $request->cookie('guest_id');
-        
+    
         if (!$guest_id) {
-            $guest_id = (string) Str::uuid(); // إنشاء guest_id عشوائي
-            // تخزينه في الكوكيز
-            cookie()->queue(cookie('guest_id', $guest_id, 60 * 24 * 30)); // الكوكيز صالح لمدة 30 يومًا
+            $guest_id = (string) Str::uuid(); // Generate a random guest_id
+            // Store it in cookies for 30 days
+            cookie()->queue(cookie('guest_id', $guest_id, 60 * 24 * 30));
         }
-        
+    
         $user_id = auth()->id();
+    
+        // Find the chat based on guest_id
+        $chat = Chat::where('guest_id', $guest_id)->with(['messages.sender', 'user'])->first();
         
-        // البحث عن الدردشة بناءً على guest_id
-        $chat = Chat::where("guest_id", $guest_id)->with(['messages.sender', 'user'])->first();
+        // If chat doesn't exist, create a new one
         if (!$chat) {
             $chat = Chat::create([
                 'id' => $guest_id,
-                'user_id' => null,
+                'user_id' => $user_id, // Associate with the authenticated user if logged in
                 'guest_id' => $guest_id,
+                'auto_message' => true, // Default to true for new chats
             ]);
+
+            // Broadcast the new chat event
             broadcast(new NewChatEvent($chat))->toOthers();
         }
-        
-        return response()->json($chat);
+        if($chat){
+            $chat->update(['auto_message' => true]);
+
+        }
+        // Handle auto message
+        if ($chat->auto_message) {
+            // Send the auto message
+            $message = Message::create([
+                'chat_id' => $chat->id,
+                'sender_type' => User::class,
+                'sender_id' => 1, // System/Bot user ID
+                'message' => 'Thank you for reaching out. Please hold on for a moment while we review your message, and we will get back to you shortly.', // Default auto message
+            ]);
+    
+            // Broadcast the auto message event
+            broadcast(new NewMessageEvent($message))->toOthers();
+    
+            // Set auto_message to false after sending the message
+            $chat->update(['auto_message' => false]);
+        }
+    
+        // Return the chat with related messages and user
+        return response()->json($chat->load('messages.sender', 'user'));
     }
+    
     
     /**
      * Display the specified resource.

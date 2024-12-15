@@ -8,7 +8,7 @@
     <div class="container mx-auto flex justify-between items-center py-4 px-6 lg:px-8">
       <!-- Logo -->
       <h1 class="text-2xl lg:text-3xl font-bold transition duration-300">
-        <img :src="`/storage/${settings.logo}`" alt="Logo" class="h-8 sm:h-10 lg:h-12 max-w-full" />
+        <img :src="`/storage/${settings.logo}`" alt="Logo" class="h-8 sm:h-10 lg:h-20 max-w-full" />
       </h1>
 
       <!-- Desktop Navigation Links -->
@@ -21,7 +21,7 @@
 
       <!-- Mobile Menu Button -->
       <button @click="isMenuOpen = !isMenuOpen" 
-        class="xl:hidden text-gray-700 text-3xl hover:text-blue-500 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+        class="xl:hidden  text-gray-700 text-3xl hover:text-blue-500 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" 
         aria-controls="mobile-menu" :aria-expanded="isMenuOpen.toString()">
         <span class="sr-only">Toggle navigation</span>
         ☰
@@ -108,6 +108,10 @@
       <p   class="text-lg">{{
         settings.footer_description }}
       </p>
+
+      <Link :href="route('privacy')" class="font-bold text-lg hover:text-blue-500 transition-all" 
+        :class="linkClass" :style="{ color: linkTextColor  }">Privacy Policy</Link>
+
     </div>
 
     <!-- Contact Form Section -->
@@ -132,7 +136,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 
 const props = defineProps(['settings']);
 
@@ -145,8 +149,8 @@ const sharedBackgroundStyle = {
 };
 
 const headerBackgroundColor = computed(() => scrolled.value ? props.settings.main_color : "transparent");
-const headerTextColor = computed(() => props.settings.secondary_color);
-const linkTextColor = computed(() => props.settings.secondary_color);
+const headerTextColor = computed(() =>  props.settings.secondary_color );
+const linkTextColor = computed(() => scrolled.value ? props.settings.secondary_color : "white");
 const headerClass = computed(() => 'transition-all duration-300 ease-in-out');
 const textClass = computed(() => 'font-semibold');
 import { Link, useForm } from "@inertiajs/vue3";
@@ -161,6 +165,13 @@ const form = useForm({
   message: "",
 });
 const  isMenuOpen = ref(false)
+const isLargeOrMediumScreen = ref(false);
+
+const checkScreenSize = () => {
+  // Check if the screen is large or medium
+  isLargeOrMediumScreen.value = window.innerWidth >= 768; // Adjust this value based on your breakpoints
+};
+
 const sendMessage = () => {
   form.post(route("contacts.store"), {
     preserveScroll: true,
@@ -184,9 +195,19 @@ const handleScroll = () => {
 // Lifecycle hooks
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
   initFlowbite();
 });
 
+
+
+    watch(isLargeOrMediumScreen, (newValue) => {
+      // Automatically close the menu when the screen size is large or medium
+      if (newValue) {
+        isMenuOpen.value = false;
+      }
+    });
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
 });

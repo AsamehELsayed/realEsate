@@ -1,5 +1,11 @@
 <template>
-      <div class="flex justify-center items-center min-h-screen bg-blue-50 py-10">
+    <section
+  
+  class="py-16  "
+  :style="sharedBackgroundStyle"
+  
+  >
+      <div class="flex justify-center items-center min-h-screen 0 py-10">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full text-center">
           <div class="mb-6">
             <!-- Success Icon -->
@@ -14,6 +20,7 @@
         
         </div>
       </div>
+      </section>
   </template>
   
   <script setup>
@@ -25,13 +32,14 @@
   });
   
  
-  
-  const goHome = () => {
-    router.visit('/');
-  };
-  
-  const viewOrder = () => {
-    router.visit('/order-details');
+  const props = defineProps({
+    settings: Object
+  })
+  const sharedBackgroundStyle = {
+    backgroundImage: `url('/storage/${props.settings.main_bg_image}')`,
+    backgroundColor: props.settings.bg_color,
+    backgroundAttachment: 'fixed',
+    backgroundSize: 'cover',
   };
   </script>
   

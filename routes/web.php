@@ -45,7 +45,7 @@ Route::post('/create-checkout-session', function (Illuminate\Http\Request $reque
         ]],
         'mode' => 'subscription',
     'success_url' => url('/payment-success'),
-        'cancel_url' => url('/payment-cancel'),
+        'cancel_url' => url('/'),
         'billing_address_collection' => 'auto', // Prompt for billing address
         'metadata' => [
             'features' => implode(', ', $features), // Pass additional data for tracking
