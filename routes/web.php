@@ -13,24 +13,22 @@ use Illuminate\Support\Facades\Route;
 use \App\Models\Section;
 use Inertia\Inertia;
 use Stripe\Stripe;
-
 Route::post('/create-checkout-session', function (Illuminate\Http\Request $request) {
     Stripe::setApiKey(config('services.stripe.secret'));
 
     // Retrieve the total price and features from the request
-    $total = $request->input('total');
+    $total = $request->input('total'); // This should be the price for one unit
     $features = $request->input('features'); // Get features from the request
-
+    $quantity = $request->input('quantity', 1); // Get quantity from the request
     // Create a Product if not already created on Stripe
-    // Optional: You can also create products programmatically if not already present in Stripe
     $product = \Stripe\Product::create([
         'name' => 'Monthly Subscription',
-        'description' => 'Features: ' . implode(' ', $features), // Include features in the description
+        'description' => 'Features: ' . implode('-', $features), // Include features in the description
     ]);
 
     // Create the Price for the monthly subscription
     $price = \Stripe\Price::create([
-        'unit_amount' => $total * 100,  // Convert to cents
+        'unit_amount' => $total * 100,  // Convert to cents (price for one unit)
         'currency' => 'usd',
         'recurring' => ['interval' => 'month'], // This specifies the subscription is monthly
         'product' => $product->id,
@@ -41,10 +39,10 @@ Route::post('/create-checkout-session', function (Illuminate\Http\Request $reque
         'payment_method_types' => ['card'],
         'line_items' => [[
             'price' => $price->id,
-            'quantity' => 1,
+            'quantity' => $quantity, // Only apply quantity here
         ]],
         'mode' => 'subscription',
-    'success_url' => url('/payment-success'),
+        'success_url' => url('/payment-success'),
         'cancel_url' => url('/'),
         'billing_address_collection' => 'auto', // Prompt for billing address
         'metadata' => [
@@ -53,7 +51,6 @@ Route::post('/create-checkout-session', function (Illuminate\Http\Request $reque
         'client_reference_id' => 'unique_user_id', // Track the customer
         'locale' => 'en', // Set the locale for the checkout page
     ]);
-    
 
     // Return the session ID
     return response()->json(['id' => $session->id]);

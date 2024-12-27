@@ -1,4 +1,5 @@
 <script setup>
+import loginImage from '/public/images/login-image.webp';
 
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -96,7 +97,7 @@ const submit = () => {
                     </form>
                 </div>
                 <div class="lg:h-[400px] md:h-[300px] max-md:mt-8">
-                    <img src="\images\login-image.webp"
+                    <img :src="loginImage"
                         class="w-full h-full max-md:w-4/5 mx-auto block object-cover" alt="Dining Experience" />
                 </div>
             </div>

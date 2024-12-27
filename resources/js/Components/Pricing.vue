@@ -29,7 +29,7 @@
         <div
           v-for="price in prices"
           :key="price.id"
-          class="flex flex-col p-6 mx-auto max-w-lg text-center rounded-xl border shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 h-full"
+          class="flex flex-col p-6 mx-auto w-80 text-center rounded-xl border shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 h-full"
           :style="{
             backgroundColor: settings.main_color,
             borderColor: settings.secondary_color,
@@ -108,7 +108,19 @@
               <span>{{ feature }}</span>
             </li>
           </ul>
-
+          <div class="flex items-center justify-between mb-6">
+            <label for="quantity" class="text-gray-800 font-medium">
+              Quantity
+            </label>
+            <input
+              id="quantity"
+              type="number"
+              class="w-20 p-2 text-center rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              v-model.number="price.quantity"
+              min="1"
+              
+            />
+          </div>
           <button
             @click="subscribe(price)"
             class="text-white font-medium rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 ease-in-out transform hover:bg-opacity-90"
@@ -146,50 +158,63 @@
   const stripePromise = loadStripe('pk_test_51Q7K9jCGumqKsc28Z7l9F0TfwgY2GOdCUuSDHm4rEg2TkmDUlHS7k4xt9VLOnBRkiwEMxXz0li5mu0rL6WyA0u1a00WlRBdRbY'); // Replace with your Stripe public key
 
   const subscribe = async (price) => {
-    try {
-      // Show loading indicator
+  try {
+    // Show loading indicator
+    Swal.fire({
+      title: 'Loading',
+      text: 'Please wait...',
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    // Ensure quantity is defined and valid
+    if (!price.quantity || price.quantity <= 0) {
       Swal.fire({
-        title: 'Loading',
-        text: 'Please wait...',
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
+        icon: 'error',
+        title: 'Invalid Quantity',
+        text: 'Please enter a valid quantity.',
       });
+      return;
+    }
 
-      const featuresWithEmployeeCount = [
-        `${price.employees_count} Employees`,
-        ...price.features,
-      ];
+    const featuresWithEmployeeCount = [
+      `${price.employees_count} Employees`,
+      ...price.features,
+    ];
 
-      const response = await axios.post('/create-checkout-session', {
-        total: price.total,
-        features: featuresWithEmployeeCount,
-      });
+    // Send quantity along with other data
+    const response = await axios.post('/create-checkout-session', {
+      total: price.total, // Adjust total based on quantity
+      features: featuresWithEmployeeCount,
+      quantity: price.quantity ,
+    });
 
-      const session = response.data;
+    const session = response.data;
 
-      const stripe = await stripePromise;
-      const { error } = await stripe.redirectToCheckout({ sessionId: session.id });
+    const stripe = await stripePromise;
+    const { error } = await stripe.redirectToCheckout({ sessionId: session.id });
 
-      if (error) {
-        console.error('Error redirecting to checkout:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'An error occurred while processing the payment. Please try again.',
-        });
-      }
-    } catch (error) {
-      console.error('Error creating checkout session:', error);
+    if (error) {
+      console.error('Error redirecting to checkout:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'An error occurred while creating the checkout session. Please try again.',
+        text: 'An error occurred while processing the payment. Please try again.',
       });
-    } finally {
-      // Hide the loading indicator
-      Swal.close();
     }
-  };
+  } catch (error) {
+    console.error('Error creating checkout session:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'An error occurred while creating the checkout session. Please try again.',
+    });
+  } finally {
+    // Hide the loading indicator
+    Swal.close();
+  }
+};
+
 </script>
