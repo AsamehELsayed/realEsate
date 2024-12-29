@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=production
+      - CACHE_DRIVER=file
+      - QUEUE_CONNECTION=database
+    networks:
+      - laravel
+    depends_on:
+      - db
+
+  ssr:
+    build:
+      context: .
+      dockerfile: DockerfileInertia
+    container_name: inertia_ssr
+    ports:
+      - "8080:8080"
+  
+    networks:
+      - laravel
+    depends_on:
+      - app
+
+  webserver:
+    image: nginx:1.21
+    container_name: laravel_webserver
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:80"
+    networks:
+      - laravel
+    depends_on:
+      - app
+      - ssr
+
+  db:
+    image: mysql:8.0
+    container_name: laravel_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
