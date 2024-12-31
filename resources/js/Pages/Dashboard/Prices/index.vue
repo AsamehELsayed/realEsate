@@ -12,8 +12,6 @@
       <tr>
         <th scope="col" class="px-6 py-3">Plan Name</th>
         <th scope="col" class="px-6 py-3">Price per hour $</th>
-        <th scope="col" class="px-6 py-3">Count of employees</th>
-        <th scope="col" class="px-6 py-3">Total</th>
         <th scope="col" class="px-6 py-3 text-center">Action</th>
       </tr>
     </thead>
@@ -22,8 +20,6 @@
           class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-700 transition-colors">
         <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ price.name }}</td>
         <td class="px-6 py-4">{{ price.price }}</td>
-        <td class="px-6 py-4">{{ price.employees_count }}</td>
-        <td class="px-6 py-4">{{ price.total }}$</td>
         <td class="px-6 py-4 flex justify-center gap-2">
           <Link :href="route('prices.edit', price.id)" 
                 class="px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded shadow hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300">

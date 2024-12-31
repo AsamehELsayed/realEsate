@@ -1,11 +1,13 @@
 <template>
+      <Head title="Contact Us" />
+
   <section
     id="affiliate-section"
     class="py-16 bg-white"
     :style="sharedBackgroundStyle"
   >
-    <div class="container mx-auto max-w-6xl text-center space-y-14 py-16 z-20">
-      <div class="max-w-screen-lg mx-auto p-5">
+    <div class="container mx-auto max-w-6xl text-center space-y-14 py-16 z-20 ">
+      <div class="max-w-screen-lg mx-auto p-5 animate__animated animate__fadeInDown">
         <div class="grid grid-cols-1 md:grid-cols-12 border">
           <div class="bg-gray-900 md:col-span-4 p-10 text-white">
             <p class="mt-4 text-sm leading-7 font-regular uppercase">Contact</p>
@@ -256,7 +258,7 @@
   
   <script setup>
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { useForm } from "@inertiajs/vue3";
+import { Head, useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 
 defineOptions({

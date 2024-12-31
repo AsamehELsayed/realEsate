@@ -17,9 +17,7 @@ class PricesTableSeeder extends Seeder
             'name' => 'Basic Plan',
             'description' => 'A simple plan for small businesses.',
             'price' => 19.99,
-            'days_per_month' => 30,
-            'hours_per_day' => 8,
-            'employees_count' => 5,
+      
             'features' => json_encode(['Access to basic features', 'Email support']),
         ]);
 
@@ -28,9 +26,7 @@ class PricesTableSeeder extends Seeder
             'name' => 'Pro Plan',
             'description' => 'A comprehensive plan for growing businesses.',
             'price' => 49.99,
-            'days_per_month' => 30,
-            'hours_per_day' => 10,
-            'employees_count' => 15,
+        
             'features' => json_encode(['Access to all features', 'Priority support', 'Analytics dashboard']),
         ]);
 
@@ -39,9 +35,7 @@ class PricesTableSeeder extends Seeder
             'name' => 'Enterprise Plan',
             'description' => 'A customizable plan for large organizations.',
             'price' => 199.99,
-            'days_per_month' => 365,
-            'hours_per_day' => 24,
-            'employees_count' => 50,
+    
             'features' => json_encode(['Dedicated account manager', 'Custom integrations', 'Unlimited access']),
         ]);
     }

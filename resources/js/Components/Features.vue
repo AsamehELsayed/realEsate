@@ -56,7 +56,7 @@
       </div>
     </div>
     <div class="flex justify-center my-8">
-      <Link :href="route('calendly')" as="button"  target="_blank" class="px-6 py-3 rounded-lg bg-green-500 text-white text-lg font-semibold hover:bg-green-600 transition duration-300 ease-in-out"
+      <Link :href="route('calendly')" as="button"  target="_blank" class="px-6  transform cursor-pointer  hover:scale-110 py-3 rounded-lg bg-green-500 text-white text-lg font-semibold hover:bg-green-600 transition duration-300 ease-in-out"
       :style="{
               backgroundColor: settings.secondary_color,
               color: settings.main_color,

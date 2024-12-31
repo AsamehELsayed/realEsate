@@ -30,10 +30,6 @@
       </div>
 
       <!-- Per -->
-      <div>
-        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Per</h2>
-        <p class="text-gray-900 dark:text-white">{{ plan.per }}</p>
-      </div>
 
       <!-- Description -->
       <div>

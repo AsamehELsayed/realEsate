@@ -16,10 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->decimal('price', 8, 2); // تأكد من أن العمود هو نوع decimal
-            $table->integer('days_per_month');
-            $table->integer('hours_per_day');
-            $table->integer('employees_count');
-            $table->integer('total');
+            $table->text('link')->nullable();
             $table->json('features');
             $table->timestamps();
         });

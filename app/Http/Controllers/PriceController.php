@@ -39,9 +39,7 @@ class PriceController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
             'price' => 'required|numeric|min:0',
-            'days_per_month' => 'required|integer|min:1|max:31',
-            'hours_per_day' => 'required|integer|min:1|max:24',
-            'employees_count' => 'required|integer|min:1',
+            'link' => 'required|url',
             'features' => 'required|array|min:1',
             'features.*' => 'string|max:255',
         ]);
@@ -49,9 +47,7 @@ class PriceController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
-            'days_per_month' => $request->days_per_month,
-            'hours_per_day' => $request->hours_per_day,
-            'employees_count' => $request->employees_count,
+            'link' => $request->link,
             'features' => json_encode($request->features),
         ]);
         return redirect()->route('prices.index')->with('success', 'Price created successfully!');
@@ -90,9 +86,7 @@ class PriceController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:500',
             'price' => 'required|numeric|min:0',
-            'days_per_month' => 'required|integer|min:1',
-            'hours_per_day' => 'required|integer|min:1',
-            'employees_count' => 'required|integer|min:1',
+  'link' => 'required|url',
             'features' => 'nullable|array',
             'features.*' => 'string',
         ]);
@@ -104,9 +98,7 @@ class PriceController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
-            'days_per_month' => $request->days_per_month,
-            'hours_per_day' => $request->hours_per_day,
-            'employees_count' => $request->employees_count,
+            'link' => $request->link,
             'features' => json_encode($request->features), // Store features as a JSON string
         ]); 
 

@@ -40,40 +40,6 @@
       </div>
 
       <!-- Days Per Month Field -->
-      <div class="mb-4">
-        <label for="days_per_month" class="block text-sm font-medium text-gray-700">Days Per Month</label>
-        <input
-          id="days_per_month"
-          type="number"
-          v-model="form.days_per_month"
-          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
-        <div v-if="form.errors.days_per_month" class="text-red-500 text-sm mt-1">{{ form.errors.days_per_month }}</div>
-      </div>
-
-      <!-- Hours Per Day Field -->
-      <div class="mb-4">
-        <label for="hours_per_day" class="block text-sm font-medium text-gray-700">Hours Per Day</label>
-        <input
-          id="hours_per_day"
-          type="number"
-          v-model="form.hours_per_day"
-          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
-        <div v-if="form.errors.hours_per_day" class="text-red-500 text-sm mt-1">{{ form.errors.hours_per_day }}</div>
-      </div>
-
-      <!-- Employees Count Field -->
-      <div class="mb-4">
-        <label for="employees_count" class="block text-sm font-medium text-gray-700">Employees Count</label>
-        <input
-          id="employees_count"
-          type="number"
-          v-model="form.employees_count"
-          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
-        <div v-if="form.errors.employees_count" class="text-red-500 text-sm mt-1">{{ form.errors.employees_count }}</div>
-      </div>
 
       <!-- Features Field -->
       <div class="mb-4">
@@ -113,17 +79,19 @@
         <div v-if="form.errors.features" class="text-red-500 text-sm mt-1">{{ form.errors.features }}</div>
       </div>
 
-      <!-- Total Price Display -->
       <div class="mb-4">
-        <label for="total" class="block text-sm font-medium text-gray-700">Total Price</label>
+        <label for="link" class="block text-sm font-medium text-gray-700">Link</label>
         <input
-          id="total"
-          type="text"
-          v-model="total"
+          type="url"
+          id="link"
+          v-model="form.link"
           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-          readonly
+          placeholder="Enter a link"
         />
+        <div v-if="form.errors.link" class="text-red-500 text-sm mt-1">{{ form.errors.link }}</div>
       </div>
+
+      
 
       <!-- Submit Button -->
       <button
@@ -151,9 +119,7 @@ const form = useForm({
   name: props.plan.name,
   description: props.plan.description,
   price: props.plan.price,
-  days_per_month: props.plan.days_per_month,
-  hours_per_day: props.plan.hours_per_day,
-  employees_count: props.plan.employees_count,
+  link: props.plan.link,
   features: props.plan.features,
   _method: "PUT",
 });

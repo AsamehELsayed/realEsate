@@ -1,16 +1,17 @@
 <template>
 
     <section
-      id="capabilities-section"
+      id="capabilities-section" 
+      ref="section"  
       class="py-16 bg-white sm:h-full lg:h-96  "
     
     >
-      <div class="container mx-auto max-w-5xl text-center space-y-12 z-20">
+      <div class="container mx-auto max-w-5xl text-center space-y-12 z-20" :class="{ 'animate__animated animate__fadeInUp': positionY >= position }">
         <h2
           class="text-3xl font-bold z-20"
           :style="{ color: settings.main_font_color }"
         >
-          {{ capabilities.content.header }}
+          {{ capabilities.content.header  }}  
         </h2>
   
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 z-20">
@@ -103,10 +104,21 @@
   </template>
   
   <script setup>
+import { ref } from "vue";
+import { onMounted, onUnmounted } from "vue";
+
   defineProps({
+    position: Number,
     capabilities: Object, // Contains dynamic content for each capability (header, title, description)
     settings: Object,     // Contains dynamic colors (bg_color, main_color, secondary_color, main_font_color, secondary_font_color)
   });
+  
+  const section = ref(null);
+  const positionY = ref(0);
+  onMounted(() => {
+    positionY.value = section.value.getBoundingClientRect().top + window.pageYOffset - 100;
+  });
+
 
   </script>
   

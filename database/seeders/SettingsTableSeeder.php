@@ -25,6 +25,7 @@ class SettingsTableSeeder extends Seeder
                 'facebook' => 'https://facebook.com/yourpage',
                 'linkedin' => 'https://linkedin.com/yourprofile',
                 'email' => 'your-email@example.com',
+                'auto_message' => 'Welcome to our website! We are excited to have you here.',
                 'phone' => '123-456-7890',
                 'footer_text' => '© 2023 Your Company. All rights reserved.',
                 'footer_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',

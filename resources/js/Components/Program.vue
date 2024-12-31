@@ -1,23 +1,22 @@
 <template>
-
   <section
     id="affiliate-section"
     class="py-16 bg-white"
     :style="sharedBackgroundStyle"
+    ref="section"
   >
-
-    <div class="container mx-auto max-w-6xl text-center space-y-12 z-20">
+    <div class="container mx-auto max-w-6xl text-center space-y-12 z-20" :class="{ 'animate__animated': animate, 'animate__fadeInDown': animate }">
       <!-- Section Title -->
       <h2
         class="text-3xl font-bold"
         :style="{ color: settings.main_color }"
-        >
+      >
         {{ Affiliate_Program.content.header }}
       </h2>
       <p
         class="text-xl max-w-2xl mx-auto"
         :style="{ color: settings.main_color }"
-        >
+      >
         {{ Affiliate_Program.content.sub_header }}
       </p>
 
@@ -93,10 +92,10 @@
     </div>
   </section>
 </template>
-
 <script setup>
 import { useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
+import { ref, computed, onMounted } from "vue";
 
 // Form State
 const form = useForm({
@@ -123,18 +122,26 @@ const send = () => {
 // Props
 const props = defineProps({
   Affiliate_Program: Object, // Contains the content data
+  position: Number, 
   settings: Object, // Contains dynamic settings for colors
 });
+
 const sharedBackgroundStyle = {
   backgroundImage: `url('/storage/${props.settings.main_bg_image}')`,
   backgroundColor: props.settings.bg_color,
   backgroundAttachment: 'fixed',
   backgroundSize: 'cover',
-  
 };
 
-</script>
+// Scroll Animation Logic
+const section = ref(null);
+const positionY = ref(0);
 
-<style scoped>
-/* Scoped styles for fine-tuning if needed */
-</style>
+onMounted(() => {
+  positionY.value = section.value.getBoundingClientRect().top + window.pageYOffset - 600;
+});
+
+const animate = computed(() => {
+  return props.position > positionY.value;
+});
+</script>

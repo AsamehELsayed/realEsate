@@ -12,49 +12,49 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use \App\Models\Section;
 use Inertia\Inertia;
-use Stripe\Stripe;
-Route::post('/create-checkout-session', function (Illuminate\Http\Request $request) {
-    Stripe::setApiKey(config('services.stripe.secret'));
+// use Stripe\Stripe;
+// Route::post('/create-checkout-session', function (Illuminate\Http\Request $request) {
+//     Stripe::setApiKey(config('services.stripe.secret'));
 
-    // Retrieve the total price and features from the request
-    $total = $request->input('total'); // This should be the price for one unit
-    $features = $request->input('features'); // Get features from the request
-    $quantity = $request->input('quantity', 1); // Get quantity from the request
-    // Create a Product if not already created on Stripe
-    $product = \Stripe\Product::create([
-        'name' => 'Monthly Subscription',
-        'description' => 'Features: ' . implode('-', $features), // Include features in the description
-    ]);
+//     // Retrieve the total price and features from the request
+//     $total = $request->input('total'); // This should be the price for one unit
+//     $features = $request->input('features'); // Get features from the request
+//     $quantity = $request->input('quantity', 1); // Get quantity from the request
+//     // Create a Product if not already created on Stripe
+//     $product = \Stripe\Product::create([
+//         'name' => 'Monthly Subscription',
+//         'description' => 'Features: ' . implode('-', $features), // Include features in the description
+//     ]);
 
-    // Create the Price for the monthly subscription
-    $price = \Stripe\Price::create([
-        'unit_amount' => $total * 100,  // Convert to cents (price for one unit)
-        'currency' => 'usd',
-        'recurring' => ['interval' => 'month'], // This specifies the subscription is monthly
-        'product' => $product->id,
-    ]);
+//     // Create the Price for the monthly subscription
+//     $price = \Stripe\Price::create([
+//         'unit_amount' => $total * 100,  // Convert to cents (price for one unit)
+//         'currency' => 'usd',
+//         'recurring' => ['interval' => 'month'], // This specifies the subscription is monthly
+//         'product' => $product->id,
+//     ]);
 
-    // Create a Stripe Checkout session for subscription
-    $session = \Stripe\Checkout\Session::create([
-        'payment_method_types' => ['card'],
-        'line_items' => [[
-            'price' => $price->id,
-            'quantity' => $quantity, // Only apply quantity here
-        ]],
-        'mode' => 'subscription',
-        'success_url' => url('/payment-success'),
-        'cancel_url' => url('/'),
-        'billing_address_collection' => 'auto', // Prompt for billing address
-        'metadata' => [
-            'features' => implode(', ', $features), // Pass additional data for tracking
-        ],
-        'client_reference_id' => 'unique_user_id', // Track the customer
-        'locale' => 'en', // Set the locale for the checkout page
-    ]);
+//     // Create a Stripe Checkout session for subscription
+//     $session = \Stripe\Checkout\Session::create([
+//         'payment_method_types' => ['card'],
+//         'line_items' => [[
+//             'price' => $price->id,
+//             'quantity' => $quantity, // Only apply quantity here
+//         ]],
+//         'mode' => 'subscription',
+//         'success_url' => url('/payment-success'),
+//         'cancel_url' => url('/'),
+//         'billing_address_collection' => 'auto', // Prompt for billing address
+//         'metadata' => [
+//             'features' => implode(', ', $features), // Pass additional data for tracking
+//         ],
+//         'client_reference_id' => 'unique_user_id', // Track the customer
+//         'locale' => 'en', // Set the locale for the checkout page
+//     ]);
 
-    // Return the session ID
-    return response()->json(['id' => $session->id]);
-});
+//     // Return the session ID
+//     return response()->json(['id' => $session->id]);
+// });
 
 
 Route::get('/', function () {
@@ -109,6 +109,13 @@ Route::get('/privacy',function () {
         'privacy' => $privacy
     ]);
 })->name('privacy');
+Route::get('/refund',function () {
+    $privacy = Section::where('name', 'refund')->first();
+    $privacy->content = json_decode($privacy->content, true);
+    return Inertia::render('Guest/refund', [
+        'privacy' => $privacy
+    ]);
+})->name('refund');
 
 Route::resource('contacts', ContactController::class)->only('store');
 Route::resource('programs', AffiliateProgramController::class)->only('store');
@@ -127,6 +134,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('contacts', ContactController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::resource('programs', AffiliateProgramController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::put('/updatePrivacyPolicy/{id}', [SectionController::class, 'updatePrivacyPolicy'])->name('updatePrivacyPolicy');
+    Route::put('/updateRefund/{id}', [SectionController::class, 'updateRefund'])->name('updateRefund');
     Route::resource('sections', SectionController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::resource('settings', SettingController::class);
 });

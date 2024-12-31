@@ -343,10 +343,10 @@ const k = { install(t4, e2) {
   const r2 = (t5, r3, n2, o2 = e2) => T(t5, r3, n2, o2);
   parseInt(t4.version) > 2 ? (t4.config.globalProperties.route = r2, t4.provide("route", r2)) : t4.mixin({ methods: { route: r2 } });
 } };
-const appName = "RealEstateApp";
+const appName = import.meta.env.APP_NAME || "Laravel";
 createServer(
   (page) => createInertiaApp({
-    page,
+    page, 
     render: renderToString,
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(

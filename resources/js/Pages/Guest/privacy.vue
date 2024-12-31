@@ -1,4 +1,6 @@
 <template>
+      <Head title="Privacy" />
+
   <section
     id="affiliate-section"
     class="py-20 bg-white"
@@ -32,6 +34,7 @@ const props = defineProps({
   settings: Object,
 });
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import { Head } from "@inertiajs/vue3";
 const sharedBackgroundStyle = {
   backgroundImage: `url('/storage/${props.settings.main_bg_image}')`,
   backgroundColor: props.settings.bg_color,
