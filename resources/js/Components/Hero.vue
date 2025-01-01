@@ -9,7 +9,7 @@
     <!-- Overlay -->
 
       <div
-        class="container animate__animated animate__fadeInDown mx-auto h-full flex flex-col  items-center justify-center px-4 text-center relative "
+        class="container animate__animated animate__fadeInUp mx-auto h-full flex flex-col  items-center justify-center px-4 text-center relative "
       >
         <h1
           class="text-4xl md:text-5xl  lg:text-7xl font-extrabold leading-tight"

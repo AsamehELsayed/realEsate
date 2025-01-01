@@ -26,6 +26,8 @@
 </template>
 
 <script setup>
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+
 defineOptions({
 layout: GuestLayout,
 });
@@ -33,7 +35,6 @@ const props = defineProps({
 privacy: Object,
 settings: Object,
 });
-import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head } from "@inertiajs/vue3";
 const sharedBackgroundStyle = {
 backgroundImage: `url('/storage/${props.settings.main_bg_image}')`,

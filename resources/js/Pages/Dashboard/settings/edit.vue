@@ -61,7 +61,6 @@
             </div>
           </div>
         </div>
-
         <div class="space-y-4">
           <!-- File Input -->
           <input id="logo" type="file" accept="logo/*" @change="handlelogoUpload"
@@ -115,18 +114,14 @@
           </div>
         </div>
 
+  
         <div class="mb-4">
-          <label for="facebook" class="block text-sm font-medium text-gray-700">Facebook URL</label>
-          <input v-model="form.facebook" id="facebook" type="url"
+          <label for="auto-message" class="block text-sm font-medium text-gray-700">Auto Message</label>
+          <textarea v-model="form.auto_message" id="facebook" type="url"
             class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
 
-        <div class="mb-4">
-          <label for="linkedin" class="block text-sm font-medium text-gray-700">LinkedIn URL</label>
-          <input v-model="form.linkedin" id="linkedin" type="url"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        </div>
-
+      
         <div class="mb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
           <input v-model="form.email" id="email" type="email"
@@ -146,8 +141,7 @@
             class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
         <div class="mb-4">
-
-          <label for="footer-link" class="block text-sm font-medium text-gray-700">Footer Link</label>
+          <label for="footer-link" class="block text-sm font-medium text-gray-700">Footer Description</label>
           <textarea v-model="form.footer_description" id="footer-link" type="url"
             class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
@@ -185,6 +179,7 @@ const form = useForm({
   secondary_font_color: props.settings.secondary_font_color || '#555555',
   logo: null,
   main_bg_image: null,
+  auto_message: props.settings.auto_message || '',
   facebook: props.settings.facebook || '',
   linkedin: props.settings.linkedin || '',
   email: props.settings.email || '',

@@ -8,6 +8,7 @@ use App\Events\NewMessageToPublicEvent;
 use App\Models\Chat;
 use App\Models\Guest;
 use App\Models\Message;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -57,7 +58,11 @@ class ChatController extends Controller
     
         // Find the chat based on guest_id
         $chat = Chat::where('guest_id', $guest_id)->with(['messages.sender', 'user'])->first();
-        
+        $settings = Setting::first();
+
+        // Check if settings exist and decode the JSON data manually
+        $decodedSettings = $settings ? json_decode($settings->data, true) : null;
+
         // If chat doesn't exist, create a new one
         if (!$chat) {
             $chat = Chat::create([
@@ -81,7 +86,7 @@ class ChatController extends Controller
                 'chat_id' => $chat->id,
                 'sender_type' => User::class,
                 'sender_id' => 1, // System/Bot user ID
-                'message' => 'Thank you for reaching out. Please hold on for a moment while we review your message, and we will get back to you shortly.', // Default auto message
+                'message' => $decodedSettings['auto_message'], // Default auto message
             ]);
     
             // Broadcast the auto message event

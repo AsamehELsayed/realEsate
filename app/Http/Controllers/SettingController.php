@@ -46,10 +46,11 @@ class SettingController extends Controller
             'secondary_color' => 'required|string',
             'main_font_color' => 'required|string',
             'secondary_font_color' => 'required|string',
+            'auto_message' => 'required|string',
             'bg_color' => 'required|string',
-            'main_bg_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10000',
+            'main_bg_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
             'website_name' => 'required|string|max:255',
-            'logo' => 'sometimes|image|max:5000',  // Validate logo as an image
+            'logo' => 'nullable|image|max:5000',  // Validate logo as an image
             'facebook' => 'nullable|url|max:255',
             'linkedin' => 'nullable|url|max:255',
             'email' => 'nullable|email|max:255',
@@ -80,6 +81,7 @@ class SettingController extends Controller
         // Prepare settings data
         $settingsData = [
             'main_color' => $request->main_color,
+            'auto_message' => $request->auto_message,
             'secondary_color' => $request->secondary_color,
             'bg_color' => $request->bg_color,
             'main_font_color' => $request->main_font_color,
@@ -96,13 +98,19 @@ class SettingController extends Controller
         // If logo is uploaded, add it to settings data
         if ($logoPath) {
             $settingsData['logo'] = $logoPath;
+            
         }
+        else{
+            $settingsData['logo'] = json_decode(json: $settings->data)->logo;
 
+        }
         // If bg main image is uploaded, add it to settings data
         if ($bgMainImagePath) {
             $settingsData['main_bg_image'] = $bgMainImagePath;
+        }else
+        {
+            $settingsData['main_bg_image'] = json_decode(json: $settings->data)->main_bg_image;
         }
-
         // Log the data to check if it's being prepared correctly
 
         // Update the settings data

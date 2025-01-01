@@ -6,7 +6,7 @@
     class="transition-all duration-300 ease-in-out fixed top-0 left-0 w-full z-50"
   >
     <div
-      class="container mx-auto flex justify-between items-center py-4 px-6 lg:px-8"
+      class="container mx-auto flex justify-between lg:justify-evenly items-center py-4 px-6 lg:px-8"
     >
       <!-- Logo -->
       <h1 class="text-2xl lg:text-3xl font-bold transition duration-300">
@@ -42,6 +42,14 @@
           :style="{ color: linkTextColor }"
         >
           Book a Meeting
+        </Link>
+        <Link
+          :href="route('Affiliate_Program')"
+          class="font-bold text-2xl transition-all duration-300 ease-in-out hover:text-3xl"
+          :class="[route().current('Affiliate_Program') ? 'underline' : linkClass]"
+          :style="{ color: linkTextColor }"
+        >
+        Affiliate Program
         </Link>
         <Link
           :href="route('contact-us')"
@@ -97,6 +105,13 @@
         :class="linkClass"
         :style="{ color: linkTextColor }"
         >Book a Meeting</Link
+      >
+      <Link
+        :href="route('Affiliate_Program')"
+        class="font-bold text-lg hover:text-blue-500 transition-all"
+        :class="linkClass"
+        :style="{ color: linkTextColor }"
+        >Affiliate Program</Link
       >
       <Link
         :href="route('contact-us')"

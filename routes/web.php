@@ -62,6 +62,7 @@ Route::get('/', function () {
     $hero->content = json_decode($hero->content, true);
     $capabilities = Section::where('name', 'Capabilities')->first();
     $capabilities->content = json_decode($capabilities->content, true);
+   // dd($capabilities);
     $Affiliate_Program = Section::where('name', 'Affiliate_Program')->first();
     $Affiliate_Program->content = json_decode($Affiliate_Program->content, true);
     $prices= Price::all();
@@ -81,9 +82,13 @@ Route::get('/', function () {
         'features' => $features
     ]);
 })->name('home');
-Route::get('/payment-success', function () {
-    return Inertia::render('Guest/PaymentSuccess');
-});
+Route::get('/Affiliate_Program',function () {
+    $Affiliate_Program = Section::where('name', 'Affiliate_Program')->first();
+    $Affiliate_Program->content = json_decode($Affiliate_Program->content, true);
+    return Inertia::render('Guest/Program', [
+        'Affiliate_Program' => $Affiliate_Program
+    ]);
+})->name('Affiliate_Program');
 Route::get('/plans',function () {
     $plans = Section::where('name', 'Plans')->first();
     $plans->content = json_decode($plans->content, true);
