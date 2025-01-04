@@ -71,19 +71,11 @@
       v-for="feature in price.features"
       :key="feature"
     >
-      <svg
-        class="w-5 h-5 text-green-500"
-        fill="currentColor"
-        xmlns="http://www.w3.org/2000/svg"
-        :style="{ color: settings.main_color }"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-          clip-rule="evenodd"
-        ></path>
-      </svg>
-      <span class="text-gray-700 font-medium">{{ feature }}</span>
+    <svg class="w-6 h-6 "  :style="{ color: settings.secondary_color }"  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+  <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
+</svg>
+
+      <span class=" font-medium" :style="{ color: settings.secondary_color }">{{ feature }}</span>
     </li>
   </ul>
 

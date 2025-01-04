@@ -174,6 +174,33 @@ public function updateRefund(Request $request, $id)
     // Redirect or return a response
     return back()->with('success', 'Privacy Policy updated successfully!');
 }
+public function updateTerms(Request $request, $id)
+{
+    // Validate the incoming request data
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'header' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'html_content' => 'required|string',
+    ]);
+
+    // Find the section by ID
+    $section = Section::findOrFail($id);
+
+    // Update the content field with the new values
+    $section->content = json_encode([
+        'title' => $validated['title'],
+        'header' => $validated['header'],
+        'description' => $validated['description'],
+        'html_content' => $validated['html_content'],
+    ]);
+
+    // Save the section
+    $section->save();
+
+    // Redirect or return a response
+    return back()->with('success', 'Privacy Policy updated successfully!');
+}
 
     /**
      * Remove the specified resource from storage.

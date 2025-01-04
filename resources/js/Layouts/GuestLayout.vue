@@ -141,32 +141,37 @@
       <!-- More Info Section -->
 
       <!-- Footer Text Description Section -->
-      <div
-        class="lg:col-span-2 flex flex-col items-start justify-center text-white"
-      >
-        <h2 class="text-2xl font-bold mb-6">{{ settings.footer_text }}</h2>
-        <p class="text-lg">{{ settings.footer_description }}</p>
-        <div class="flex space-x-4">
-       
-          <Link
-            :href="route('privacy')"
-            class="font-bold text-lg hover:scale-110 transition-all"
-            :class="linkClass"
-            :style="{ color: linkTextColor }"
-            >Privacy Policy</Link
-          >
-          <Link
-            :href="route('refund')"
-            class="font-bold text-lg hover:scale-110 transition-all"
-            :class="linkClass"
-            :style="{ color: linkTextColor }"
-            >Refund Policy</Link
-          >
+      <div class="lg:col-span-2 flex flex-col items-start justify-center text-white">
+    <h1 class="text-6xl font-bold mb-8 ">{{ settings.website_name }}</h1>
+    <p class="text-2xl">{{ settings.footer_description }}</p>
+
+    <!-- Contact Information Section -->
+    <div class="mt-4 flex flex-col items-start space-y-2">
+        <!-- Email -->
+        <div class="flex items-center space-x-2">
+            <!-- Email Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 18 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4H1m3 4H1m3 4H1m3 4H1m6.071.286a3.429 3.429 0 1 1 6.858 0M4 1h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm9 6.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
+            </svg>
+            <!-- Email Link -->
+            <a href="mailto:{{ settings.contact_email }}" class="text-lg hover:underline">{{ settings.email }}</a>
         </div>
-      </div>
+
+        <!-- Phone -->
+        <div class="flex items-center space-x-2">
+            <!-- Phone Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 18 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
+            </svg>
+            <!-- Phone Link -->
+            <a href="tel:+{{ settings.contact_phone }}" class="text-lg hover:underline">{{ settings.phone }}</a>
+        </div>
+    </div>
+</div>
+
 
       <!-- Contact Form Section -->
-      <div class="lg:col-span-1 space-y-6 text-white">
+      <div class="lg:col-span-1 space-y-6 text-white border-4 border-dashed border-blue-500 p-6 rounded-lg">
         <h2 class="text-2xl font-bold mb-6">Contact Us</h2>
         <form @submit.prevent="sendMessage" class="space-y-4">
           <input
@@ -204,7 +209,15 @@
           </button>
         </form>
       </div>
+      
     </div>
+    <span class="text-lg text-white text-center block w-full">© {{ settings.footer_text }}</span>
+
+<div class="text-center mt-2">
+    <Link :href="route('terms')" class="text-white mx-2 underline hover:text-blue-500">Terms and Conditions</Link>
+    <Link  :href="route('privacy')" class="text-white mx-2 underline hover:text-blue-500">Privacy Policy</Link>
+    <Link :href="route('refund')" class="text-white mx-2 underline hover:text-blue-500">Refund Policy</Link>
+</div>
   </footer>
 </template>
 

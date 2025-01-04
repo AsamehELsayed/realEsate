@@ -118,6 +118,13 @@ Route::get('/privacy', function () {
         'privacy' => $privacy
     ]);
 })->name('privacy');
+Route::get('/terms', function () {
+    $terms = Section::where('name', 'terms')->first();
+    $terms->content = json_decode($terms->content, true);
+    return Inertia::render('Guest/terms', [
+        'terms' => $terms
+    ]);
+})->name('terms');
 Route::get('/refund', function () {
     $privacy = Section::where('name', 'refund')->first();
     $privacy->content = json_decode($privacy->content, true);
@@ -144,6 +151,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('programs', AffiliateProgramController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::put('/updatePrivacyPolicy/{id}', [SectionController::class, 'updatePrivacyPolicy'])->name('updatePrivacyPolicy');
     Route::put('/updateRefund/{id}', [SectionController::class, 'updateRefund'])->name('updateRefund');
+    Route::put('/updateTerms/{id}', [SectionController::class, 'updateTerms'])->name('updateTerms');
     Route::resource('sections', SectionController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::resource('settings', SettingController::class);
 });
