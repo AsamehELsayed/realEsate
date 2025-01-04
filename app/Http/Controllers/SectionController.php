@@ -61,64 +61,65 @@ class SectionController extends Controller
      * Update the specified resource in storage.
      */
   
-     public function update(Request $request, Section $section)
+     public function update(Request $request, $id)
      {
-         // Validate the incoming request
-         $validated = $request->validate([
-             'name' => 'required|string|max:255',
-             'content' => 'required|array', // Content should be an array
-             'images.*' => 'nullable|file|image|max:4048', // Validate multiple image uploads
-         ]);
-        // dd($validated);
-         // Decode current content to update it
-         $content = $validated['content'];
-     
-         // Handle image uploads
-         if ($request->hasFile('images')) {
-             // Check if the images are being uploaded
-             $uploadedImages = $request->file('images');
-             
-             // If the content already has images, delete old ones
-             if (isset($section->content['image']) && Storage::exists($section->content['image'])) {
-                 Storage::delete($section->content['image']);
-             }
-     
-             // Store new images and update content
-             foreach ($uploadedImages as $image) {
-                 // Store each image and add its path to the content
-                 $imagePath = $image->store('sections', 'public');
-                 $content['images'][] = $imagePath; // Append image path to the content
-             }
-         }
-     
-         // Handle nested image fields (like 'capabilities_one.image')
-         foreach ($content as $key => $value) {
-             if (is_array($value)) {
-                 foreach ($value as $nestedKey => $nestedValue) {
-                     if ($nestedKey === 'image' && $request->hasFile("content.{$key}.{$nestedKey}")) {
-                         // Handle image upload for nested fields
-                         $nestedImages = $request->file("content.{$key}.{$nestedKey}");
-     
-                         // If there are multiple images for this nested field
-                         foreach ($nestedImages as $nestedImage) {
-                             $nestedImagePath = $nestedImage->store('sections', 'public');
-                             $content[$key][$nestedKey][] = $nestedImagePath; // Append to the nested field
-                         }
-                     }
+         $section = Section::findOrFail($id);
+ 
+ 
+         // Decode existing content
+         $content = json_decode($section->content, true);
+ 
+         // Update content fields
+         foreach ($request['content'] as $key => $value) {
+             if ($key === 'image' && $request->hasFile("content.$key")) {
+                 // Delete old image if it exists
+                 if (isset($content['image']) && Storage::exists($content['image'])) {
+                     Storage::delete($content['image']);
                  }
+ 
+                 // Store new image and update the path
+                 $content['image'] = $request->file("content.$key")->store('images', 'public');
+             } else {
+                 // Update other content fields
+                 $content[$key] = $value;
              }
          }
-     
-         // Update the section with the validated data
-         $section->update([
-             'name' => $validated['name'],
-             'content' => json_encode($content), // Save updated content as JSON
-         ]);
-     
-         // Redirect with success message
-         return redirect()->route('sections.index')->with('success', 'Section updated successfully!');
+         // Update the section model
+         $section->content = json_encode($content);
+         $section->save();
+         return redirect()
+             ->route('sections.edit', $section->id)
+             ->with('success', 'Section updated successfully.');
      }
-     
+ 
+
+     public function updateProgram(Request $request, $id)
+{
+    // Validate the incoming request data
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'header' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'html_content' => 'required|string',
+    ]);
+
+    // Find the section by ID
+    $section = Section::findOrFail($id);
+
+    // Update the content field with the new values
+    $section->content = json_encode([
+        'title' => $validated['title'],
+        'header' => $validated['header'],
+        'description' => $validated['description'],
+        'html_content' => $validated['html_content'],
+    ]);
+
+    // Save the section
+    $section->save();
+
+    // Redirect or return a response
+    return back()->with('success', 'Affiliate Program updated successfully!');
+}
 public function updatePrivacyPolicy(Request $request, $id)
 {
     // Validate the incoming request data

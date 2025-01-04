@@ -282,17 +282,10 @@ const props = defineProps({
                     Program</Link
                   >
                 </li>
+          
                 <li>
                   <Link
                     :href="route('sections.edit', 3)"
-                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    Capabilities</Link
-                  >
-                </li>
-                <li>
-                  <Link
-                    :href="route('sections.edit', 4)"
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Prices</Link
@@ -300,7 +293,7 @@ const props = defineProps({
                 </li>
                 <li>
                   <Link
-                    :href="route('sections.edit', 5)"
+                    :href="route('sections.edit', 4)"
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Privacy</Link
@@ -308,7 +301,7 @@ const props = defineProps({
                 </li>
                 <li>
                   <Link
-                    :href="route('sections.edit', 6)"
+                    :href="route('sections.edit', 5)"
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Refund</Link
@@ -316,12 +309,29 @@ const props = defineProps({
                 </li>
                 <li>
                   <Link
-                    :href="route('sections.edit', 7)"
+                    :href="route('sections.edit', 6)"
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
-                    Features</Link
+                    Book a Meeting</Link
                   >
                 </li>
+                <li>
+                  <Link
+                    :href="route('posts.index',{type:'feature'})"
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    features</Link
+                  >
+                </li>
+                <li>
+                  <Link
+                    :href="route('posts.index',{type:'capability'})"
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                  capabilities</Link
+                  >
+                </li>
+            
               </ul>
             </li>
 

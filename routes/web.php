@@ -3,10 +3,12 @@
 use App\Http\Controllers\AffiliateProgramController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UesrController;
+use App\Models\Post;
 use App\Models\Price;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -60,39 +62,41 @@ use Inertia\Inertia;
 Route::get('/', function () {
     $hero = Section::where('name', 'hero')->first();
     $hero->content = json_decode($hero->content, true);
-    $capabilities = Section::where('name', 'Capabilities')->first();
-    $capabilities->content = json_decode($capabilities->content, true);
-   // dd($capabilities);
+    $capabilities = Post::where('type', 'capability')->get();
+    // $capabilities->content = json_decode($capabilities->content, true);
+    // dd($capabilities);
     $Affiliate_Program = Section::where('name', 'Affiliate_Program')->first();
     $Affiliate_Program->content = json_decode($Affiliate_Program->content, true);
-    $prices= Price::all();
+    $prices = Price::all();
     $prices->each(callback: function ($price) {
         $price->features = json_decode($price->features, true);
     });
+    $book_a_meeting = Section::where('name', 'book_a_meeting')->first();
+    $book_a_meeting->content = json_decode($book_a_meeting->content, true);
     $plans = Section::where('name', 'Plans')->first();
     $plans->content = json_decode($plans->content, true);
-    $features = Section::where('name', 'features')->first();
-    $features->content = json_decode($features->content, true);
-     return Inertia::render('Welcome', [
+    $features = Post::where('type', 'feature')->get();
+    return Inertia::render('Welcome', [
         'hero' => $hero,
         'Affiliate_Program' => $Affiliate_Program,
         'capabilities' => $capabilities,
         'prices' => $prices,
         'plans' => $plans,
-        'features' => $features
+        'features' => $features,
+        'book_a_meeting' => $book_a_meeting
     ]);
 })->name('home');
-Route::get('/Affiliate_Program',function () {
+Route::get('/Affiliate_Program', function () {
     $Affiliate_Program = Section::where('name', 'Affiliate_Program')->first();
     $Affiliate_Program->content = json_decode($Affiliate_Program->content, true);
     return Inertia::render('Guest/Program', [
         'Affiliate_Program' => $Affiliate_Program
     ]);
 })->name('Affiliate_Program');
-Route::get('/plans',function () {
+Route::get('/plans', function () {
     $plans = Section::where('name', 'Plans')->first();
     $plans->content = json_decode($plans->content, true);
-    $prices= Price::all();
+    $prices = Price::all();
     $prices->each(callback: function ($price) {
         $price->features = json_decode($price->features, true);
     });
@@ -101,20 +105,20 @@ Route::get('/plans',function () {
         'prices' => $prices
     ]);
 })->name('plans');
-Route::get('/contact-us',function () {
+Route::get('/contact-us', function () {
     return Inertia::render('Guest/contactUs');
 })->name('contact-us');
-Route::get('/book-a-meeting',function () {
+Route::get('/book-a-meeting', function () {
     return Inertia::render('Guest/Calendly');
 })->name('calendly');
-Route::get('/privacy',function () {
+Route::get('/privacy', function () {
     $privacy = Section::where('name', 'Privacy')->first();
     $privacy->content = json_decode($privacy->content, true);
     return Inertia::render('Guest/privacy', [
         'privacy' => $privacy
     ]);
 })->name('privacy');
-Route::get('/refund',function () {
+Route::get('/refund', function () {
     $privacy = Section::where('name', 'refund')->first();
     $privacy->content = json_decode($privacy->content, true);
     return Inertia::render('Guest/refund', [
@@ -125,7 +129,6 @@ Route::get('/refund',function () {
 Route::resource('contacts', ContactController::class)->only('store');
 Route::resource('programs', AffiliateProgramController::class)->only('store');
 Route::resource('chats', ChatController::class)->only('store');
-
 Route::post('/sendMessageGuest', [ChatController::class, 'sendMessageGuest'])->name('sendMessageGuest');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
@@ -136,6 +139,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/sendMessage', [ChatController::class, 'sendMessage'])->name('sendMessage');
     Route::resource('prices', PriceController::class);
     Route::resource('users', UesrController::class);
+    Route::resource('posts', PostController::class);
     Route::resource('contacts', ContactController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::resource('programs', AffiliateProgramController::class)->only(['index', 'create', 'show', 'edit', 'update', 'destroy']);
     Route::put('/updatePrivacyPolicy/{id}', [SectionController::class, 'updatePrivacyPolicy'])->name('updatePrivacyPolicy');
@@ -144,4 +148,4 @@ Route::middleware('auth')->group(function () {
     Route::resource('settings', SettingController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

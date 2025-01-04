@@ -9,7 +9,6 @@ class Section extends Model
     protected $fillable = [
         'name',
         'content',
-   
         'image',
         'description',
     ];

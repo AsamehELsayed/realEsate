@@ -35,17 +35,17 @@ class sectionSeeder extends Seeder
       
        ]);
      
-       Section::create(attributes: [
-        'name' => 'Capabilities',
+       Section::create([
+        'name' => 'Book_a_meeting',
         'content' => json_encode([
-            'header'=> 'Capabilities',
-            'capabilities_one' =>  ['title' => 'title 1', 'description' => 'description 1' ,'image' => 'images/hero_1.jpg'],
-            'capabilities_two' =>  ['title' => 'title 2', 'description' => 'description 2' ,'image' => 'images/hero_1.jpg'],
-            'capabilities_three' =>  ['title' => 'title 3', 'description' => 'description 3 ' ,'image' => 'images/hero_1.jpg'],
+            'header'=> 'Lets Dive in and Start Your Journey',
+            'description' => 'description',
         ]),
-    
       
        ]);
+     
+      
+   
      
        Section::create(attributes: [
         'name' => 'Plans',
@@ -115,17 +115,6 @@ class sectionSeeder extends Seeder
             ',
         ]),
     ]);
-    Section::create(attributes: [
-        'name' => 'features',
-        'content' => json_encode([
-            'header'=> 'Features',
-            'feature_one' =>  ['title' => 'title 1', 'description' => 'description 1' ,'image' => 'images/hero_1.jpg'],
-            'feature_two' =>  ['title' => 'title 2', 'description' => 'description 2' ,'image' => 'images/hero_1.jpg'],
-            'feature_three' =>  ['title' => 'title 3', 'description' => 'description 3' ,'image' => 'images/hero_1.jpg'],
-            'feature_four' =>  ['title' => 'title 4', 'description' => 'description 4'  ,'image' => 'images/hero_1.jpg'], 
-        ]),
-      
-       ]);
-    }
+
     
-}
+}}

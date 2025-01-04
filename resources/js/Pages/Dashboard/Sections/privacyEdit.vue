@@ -59,9 +59,9 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   import Quill from 'quill';
-  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
   import { router } from '@inertiajs/vue3';
   
+  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
   defineOptions({
     layout: AuthenticatedLayout,
   })

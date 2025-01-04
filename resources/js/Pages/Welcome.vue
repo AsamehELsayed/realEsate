@@ -3,12 +3,13 @@
 
       <Hero :settings="settings" :hero="hero"></Hero>
  
-    <div ref="capabilitiesRef" class="hidden-section">
+     <div ref="capabilitiesRef" class="hidden-section">
       <Capabilities :settings="settings" :position="myScrollPosition" :capabilities="capabilities"></Capabilities>
     </div>
+    <BookAMeeting :settings="settings" :book_a_meeting="book_a_meeting"></BookAMeeting>
     <div ref="featuresRef" class="hidden-section">
       <Features :settings="settings" :features="features"></Features>
-    </div>
+    </div> 
 
       <Pricing :position="myScrollPosition" :settings="settings" :prices="prices" :plans="plans"></Pricing>
 
@@ -27,6 +28,7 @@ import Program from '@/Components/Program.vue';
 import Chat from '@/Components/Chat.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import 'animate.css';
+import BookAMeeting from '@/Components/BookAMeeting.vue';
 
 
 const myScrollPosition = ref(window.pageYOffset);
@@ -49,6 +51,7 @@ const props = defineProps({
   plans: Object,
   features: Object,
   settings: Object,
+  book_a_meeting: Object
 });
 
 // Section references

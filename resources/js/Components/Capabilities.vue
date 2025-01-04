@@ -10,17 +10,15 @@
         class="text-5xl font-extrabold tracking-tight sm:text-6xl"
         :style="{ color: settings.main_font_color }"
       >
-        {{ capabilities.content.header }}
+       Capabilities
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
         <!-- Capability Cards -->
         <div
-          v-for="(capability, index) in [
-            capabilities.content.capabilities_one,
-            capabilities.content.capabilities_two,
-            capabilities.content.capabilities_three
-          ]"
+          v-for="(capability, index) in 
+            capabilities
+          "
           :key="index"
           class="relative group rounded-2xl p-12 bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 ease-in-out"
           :style="{ border: `3px solid ${settings.main_color}` }"
@@ -31,7 +29,7 @@
           >
             <!-- Dynamic Icon -->
             <img
-              :src="`/storage/${capability?.image[1]}`" 
+              :src="capability?.image"
               :alt="`Icon for ${capability?.title}`"
               class="w-full h-full object-cover"
             />
