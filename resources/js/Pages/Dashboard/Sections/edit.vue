@@ -1,22 +1,26 @@
 <template>
-  <div>
-    <h1>Edit Section</h1>
+  <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Section</h1>
     <form @submit.prevent="submitForm" enctype="multipart/form-data">
-      <div v-for="(value, key) in form.content" :key="key" class="field">
-        <label :for="key">{{ key.replace('_', ' ').toUpperCase() }}:</label>
+      <div v-for="(value, key) in form.content" :key="key" class="mb-6">
+        <label :for="key" class="block text-sm font-medium text-gray-700 mb-2">
+          {{ key.replace('_', ' ').toUpperCase() }}:
+        </label>
 
         <template v-if="key === 'image'">
-          <input
-            type="file"
-            :id="key"
-            @change="handleFileUpload(key, $event)"
-            class="input"
-          />
-          <span v-if="form.errors[`content.${key}`]" class="error">
-            {{ form.errors[`content.${key}`] }}
-          </span>
-          <div v-if="previews[key]">
-            <img :src="previews[key]" alt="Preview" class="preview" />
+          <div class="flex flex-col">
+            <input
+              type="file"
+              :id="key"
+              @change="handleFileUpload(key, $event)"
+              class="file:border file:border-gray-300 file:rounded-md file:px-4 file:py-2 file:bg-gray-50 file:text-gray-700"
+            />
+            <span v-if="form.errors[`content.${key}`]" class="text-red-500 text-sm mt-1">
+              {{ form.errors[`content.${key}`] }}
+            </span>
+            <div v-if="previews[key]" class="mt-4">
+              <img :src="previews[key]" alt="Preview" class="w-32 h-32 object-cover rounded-lg shadow-md" />
+            </div>
           </div>
         </template>
 
@@ -25,16 +29,18 @@
             type="text"
             :id="key"
             v-model="form.content[key]"
-            class="input"
-            :class="{ 'is-invalid': form.errors[`content.${key}`] }"
+            class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            :class="{ 'border-red-500': form.errors[`content.${key}`] }"
           />
-          <span v-if="form.errors[`content.${key}`]" class="error">
+          <span v-if="form.errors[`content.${key}`]" class="text-red-500 text-sm mt-1">
             {{ form.errors[`content.${key}`] }}
           </span>
         </template>
       </div>
 
-      <button type="submit" class="btn">Save</button>
+      <button type="submit" class="w-full py-3 mt-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Save
+      </button>
     </form>
   </div>
 </template>
@@ -48,12 +54,10 @@ defineOptions({
   layout: AuthenticatedLayout,
 });
 
-// Props from Laravel
 const props = defineProps({
   section: Object,
 });
 
-// Form handling with useForm
 const form = useForm({
   content: { ...props.section.content },
   _method: "PUT",
@@ -61,7 +65,6 @@ const form = useForm({
 
 const previews = reactive({});
 
-// Handle file uploads
 const handleFileUpload = (key, event) => {
   const file = event.target.files[0];
   if (file) {
@@ -70,7 +73,6 @@ const handleFileUpload = (key, event) => {
       return;
     }
 
-    // Revoke previous URL if it exists
     if (previews[key]) {
       URL.revokeObjectURL(previews[key]);
     }
@@ -80,12 +82,10 @@ const handleFileUpload = (key, event) => {
   }
 };
 
-// Submit form
 const submitForm = () => {
   form.post(route("sections.update", props.section.id), {
     preserveScroll: true,
     onSuccess: () => {
-      // Clean up previews
       Object.keys(previews).forEach((key) => {
         if (previews[key]) {
           URL.revokeObjectURL(previews[key]);
@@ -98,25 +98,6 @@ const submitForm = () => {
 };
 </script>
 
-
 <style>
-.input {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.field {
-  margin-bottom: 15px;
-}
-
-.error {
-  color: red;
-  font-size: 0.9em;
-}
-
-.preview {
-  margin-top: 10px;
-  max-width: 200px;
-  max-height: 200px;
-}
+/* You can leave the styles as they are since Tailwind CSS is being used for the design */
 </style>
