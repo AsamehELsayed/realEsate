@@ -34,7 +34,14 @@ class sectionSeeder extends Seeder
         ]),
       
        ]);
-     
+       Section::create(attributes: [
+        'name' => 'Plans',
+        'content' => json_encode([
+            'header'=> 'Plans',
+            'description' => 'description',
+        ]),
+      
+       ]);
        Section::create([
         'name' => 'Book_a_meeting',
         'content' => json_encode([
@@ -47,14 +54,7 @@ class sectionSeeder extends Seeder
       
    
      
-       Section::create(attributes: [
-        'name' => 'Plans',
-        'content' => json_encode([
-            'header'=> 'Plans',
-            'description' => 'description',
-        ]),
-      
-       ]);
+     
        Section::create([
         'name' => 'privacy',
         'content' => json_encode([
